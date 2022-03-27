@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <EditText
+        android:id="@+id/input_AM_R"
+        android:layout_width="284dp"
+        android:layout_height="0dp"
+        android:ems="10"
+        android:layout_marginTop="16dp"
+        android:hint="Apellido materno"
+        android:inputType="textPassword"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#837A7A"
+        android:textSize="24sp"
+        app:backgroundTint="#FFFFFFFF"
+        app:layout_constraintStart_toStartOf="@+id/lbl_AM_R"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_AM_R" />
+
+    <TextView
+        android:id="@+id/lbl_AM_R"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Apellido materno"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/input_AP_R"
+        app:layout_constraintTop_toBottomOf="@+id/input_AP_R" />
+
+    <TextView
+        android:id="@+id/lbl_AP_R"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Apellido paterno"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/input_nombre_R"
+        app:layout_constraintTop_toBottomOf="@+id/input_nombre_R" />
+
+    <EditText
+        android:id="@+id/input_AP_R"
+        android:layout_width="284dp"
+        android:layout_height="0dp"
+        android:ems="10"
+        android:layout_marginTop="16dp"
+        android:hint="Apellido paterno"
+        android:inputType="textPassword"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#837A7A"
+        android:textSize="24sp"
+        app:backgroundTint="#FFFFFFFF"
+        app:layout_constraintStart_toStartOf="@+id/lbl_AP_R"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_AP_R" />
+
+    <TextView
+        android:id="@+id/lbl_nombre_R"
+        android:layout_width="80dp"
+        android:layout_height="17dp"
+        android:layout_marginTop="16dp"
+        android:text="Nombre(s)"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/input_contraseña_R"
+        app:layout_constraintTop_toBottomOf="@+id/input_contraseña_R" />
+
+    <EditText
+        android:id="@+id/input_nombre_R"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Nombre(s)"
+        android:inputType="textPassword"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#837A7A"
+        android:textSize="24sp"
+        app:backgroundTint="#FFFFFFFF"
+        app:layout_constraintStart_toStartOf="@+id/lbl_nombre_R"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_nombre_R" />
+
+    <ImageView
+        android:id="@+id/profile_pic_R"
+        android:layout_width="147dp"
+        android:layout_height="112dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_logo" />
+
+    <EditText
+        android:id="@+id/input_email_R"
+        android:layout_width="284dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#837A7A"
+        android:textSize="24sp"
+        app:backgroundTint="#FFFFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_Email_R" />
+
+    <TextView
+        android:id="@+id/lbl_Email_R"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="@string/email"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/input_email_R"
+        app:layout_constraintTop_toBottomOf="@+id/profile_pic_R" />
+
+    <TextView
+        android:id="@+id/lbl_Username_R"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/username"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/lbl_Email_R"
+        app:layout_constraintTop_toBottomOf="@+id/input_email_R" />
+
+    <EditText
+        android:id="@+id/input_username_R"
+        android:layout_width="284dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="@string/username"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#837A7A"
+        android:textSize="24sp"
+        app:backgroundTint="#FFFFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/input_email_R"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/input_email_R"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_Username_R" />
+
+    <EditText
+        android:id="@+id/input_password_R"
+        android:layout_width="284dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#837A7A"
+        android:textSize="24sp"
+        app:backgroundTint="#FFFFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/input_username_R"
+        app:layout_constraintStart_toStartOf="@+id/input_username_R"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_Password_R" />
+
+    <TextView
+        android:id="@+id/lbl_Password_R"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/password"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/lbl_Username_R"
+        app:layout_constraintTop_toBottomOf="@+id/input_username_R" />
+
+    <EditText
+        android:id="@+id/input_contraseña_R"
+        android:layout_width="284dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="@string/passwordconfirm"
+        android:inputType="textPassword"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#837A7A"
+        android:textSize="24sp"
+        app:backgroundTint="#FFFFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/input_password_R"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/input_password_R"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_contraseña_R" />
+
+    <TextView
+        android:id="@+id/lbl_contraseña_R"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/passwordconfirm"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/lbl_Password_R"
+        app:layout_constraintTop_toBottomOf="@+id/input_password_R" />
+
+    <Button
+        android:id="@+id/btn_edit_R"
+        android:layout_width="wrap_content"
+        android:layout_height="52dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="24dp"
+        android:text="@string/register"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/yellow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/input_contraseña_R"
+        app:layout_constraintHorizontal_bias="0.598"
+        app:layout_constraintStart_toStartOf="@+id/input_contraseña_R"
+        app:layout_constraintTop_toBottomOf="@+id/input_contraseña_R"
+        app:layout_constraintVertical_bias="0.963" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

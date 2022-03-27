@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Pai</string>
+    <string name="username">Nombre de usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="passwordconfirm">Confirmar contraseña</string>
+    <string name="email">Correo electrónico</string>
+    <string name="register">Registrarse</string>
+</resources>

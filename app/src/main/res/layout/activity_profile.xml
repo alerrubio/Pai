@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <ImageView
+            android:id="@+id/profile_pic_P"
+            android:layout_width="147dp"
+            android:layout_height="112dp"
+            android:layout_marginTop="56dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_person_24" />
+
+        <EditText
+            android:id="@+id/input_email_P"
+            android:layout_width="284dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#837A7A"
+            android:textSize="24sp"
+            app:backgroundTint="#FFFFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.488"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_Email_PE" />
+
+        <TextView
+            android:id="@+id/lbl_Email_P"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:text="@string/email"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/input_email_P"
+            app:layout_constraintTop_toBottomOf="@+id/profile_pic_P" />
+
+        <TextView
+            android:id="@+id/lbl_Username_P"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/username"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/lbl_Email_P"
+            app:layout_constraintTop_toBottomOf="@+id/input_email_P" />
+
+        <EditText
+            android:id="@+id/input_username_P"
+            android:layout_width="284dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="PeterLoko"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#837A7A"
+            android:textSize="24sp"
+            app:backgroundTint="#FFFFFFFF"
+            app:layout_constraintEnd_toEndOf="@+id/input_email_P"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/input_email_P"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_Username_P" />
+
+        <TextView
+            android:id="@+id/lbl_contraseña_P"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/passwordconfirm"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/input_username_P"
+            app:layout_constraintTop_toBottomOf="@+id/input_username_P" />
+
+        <EditText
+            android:id="@+id/input_contraseña_P"
+            android:layout_width="284dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            android:ems="10"
+            android:hint="@string/passwordconfirm"
+            android:inputType="textPassword"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#837A7A"
+            android:textSize="24sp"
+            app:backgroundTint="#FFFFFFFF"
+            app:layout_constraintStart_toStartOf="@+id/lbl_contraseña_P"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_contraseña_P" />
+
+        <Button
+            android:id="@+id/btn_edit_P"
+            android:layout_width="wrap_content"
+            android:layout_height="52dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="24dp"
+            android:text="Editar perfil"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/yellow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/input_contraseña_P"
+            app:layout_constraintHorizontal_bias="0.512"
+            app:layout_constraintStart_toStartOf="@+id/input_contraseña_P"
+            app:layout_constraintTop_toBottomOf="@+id/input_contraseña_P"
+            app:layout_constraintVertical_bias="0.931" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
