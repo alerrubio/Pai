@@ -10,32 +10,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pai">
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
-        </activity>
+            android:name=".LoginActivity"
+            android:exported="false" />
         <activity
-            android:name=".DrawerActivity"
-            android:exported="true"
-
-            >
+            android:name=".MainActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".ChatActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".RegisterActivity"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-
-        </activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
             android:name=".ProfileActivity"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-
-        </activity>
-
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity
+            android:name=".DrawerActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
     </application>
 
 </manifest>
