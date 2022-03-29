@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.pai.pai.R
 
 class AdaptadorChat: RecyclerView.Adapter<AdaptadorChat.ChatViewHolder>() {
+
     class ChatViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
     }

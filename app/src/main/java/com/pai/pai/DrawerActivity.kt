@@ -23,7 +23,6 @@ class DrawerActivity : AppCompatActivity() {
 
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.drawer_layout)
@@ -46,7 +45,7 @@ class DrawerActivity : AppCompatActivity() {
                 }
 
                 R.id.opc_chats -> {
-                    cambiarFragmento(LoginFragment(), "LoginFragment")
+                    cambiarFragmento(ChatFragment(), "ChatFragment")
                 }
                 else -> {
                     TODO()
