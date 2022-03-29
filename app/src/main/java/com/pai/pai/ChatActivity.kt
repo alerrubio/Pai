@@ -18,17 +18,15 @@ class ChatActivity : AppCompatActivity() {
     private val database = FirebaseDatabase.getInstance()
     private val chatRef = database.getReference("chats") //crea la rama o tabla de chats.
 
-    private val rvMensajes = findViewById<RecyclerView>(R.id.rv_Messages)
-    private val btnEnviar = findViewById<Button>(R.id.btnEnviar_chat)
-    private val txtMensaje = findViewById<EditText>(R.id.txtMensaje_chat)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-
+        val rvMensajes = findViewById<RecyclerView>(R.id.rv_Messages)
         rvMensajes.adapter = chatAdaptador
 
+        val btnEnviar = findViewById<Button>(R.id.btnEnviar_chat)
+        val txtMensaje = findViewById<EditText>(R.id.txtMensaje_chat)
 
         btnEnviar.setOnClickListener {
             val mensaje = txtMensaje.text.toString()
@@ -38,6 +36,7 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
+        //getMessage()
     }
 
     private fun sendMessage(message: Message){
@@ -48,7 +47,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun getMessage() {
-
+        val rvMensajes = findViewById<RecyclerView>(R.id.rv_Messages)
         chatRef.addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(snapshot: DataSnapshot) {
