@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "590843056116",
+    "project_id": "paiapp-ce0a6",
+    "storage_bucket": "paiapp-ce0a6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:590843056116:android:f899aa3478d8e2d779b3a1",
+        "android_client_info": {
+          "package_name": "com.pai.pai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "590843056116-bldf4mm0h33f8f763mrlf33bfpqa9r3h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZgTg963v1po6XpgjGMcOt_R5G1kFqpTc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "590843056116-bldf4mm0h33f8f763mrlf33bfpqa9r3h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
