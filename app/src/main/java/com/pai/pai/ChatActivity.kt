@@ -17,26 +17,25 @@ class ChatActivity : AppCompatActivity() {
 
     private val database = FirebaseDatabase.getInstance()
     private val chatRef = database.getReference("chats") //crea la rama o tabla de chats.
-
+    private lateinit var nombreUsuario: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
+        nombreUsuario = intent.getStringExtra("username") ?: "sin nombre"
+
          val rvMensajes = findViewById<RecyclerView>(R.id.rv_Messages)
          val btnEnviar = findViewById<Button>(R.id.btnEnviar_chat)
          val txtMensaje = findViewById<EditText>(R.id.txtMensaje_chat)
         rvMensajes.adapter = chatAdaptador
 
-        val btnEnviar = findViewById<Button>(R.id.btnEnviar_chat)
-        val txtMensaje = findViewById<EditText>(R.id.txtMensaje_chat)
-
         btnEnviar.setOnClickListener {
             val mensaje = txtMensaje.text.toString()
             if(mensaje.isNotEmpty()){
                 txtMensaje.text.clear()
-                sendMessage(Message("", mensaje, "yomero", ServerValue.TIMESTAMP))
+                sendMessage(Message("", mensaje, nombreUsuario, ServerValue.TIMESTAMP))
             }
         }
 
@@ -66,7 +65,7 @@ class ChatActivity : AppCompatActivity() {
 
                     val mensaje: Message = snap.getValue(Message::class.java) as Message
 
-                    if (mensaje.from == "yomero")
+                    if (mensaje.from == nombreUsuario)
                         mensaje.esMio = true
 
                     listMessages.add(mensaje)

@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pai">
         <activity
-            android:name=".LoginActivity"
+            android:name=".DrawerActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"/>
         <activity
-            android:name=".ChatActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,7 +35,7 @@
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
-            android:name=".DrawerActivity"
+            android:name=".ChatActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
     </application>
