@@ -10,4 +10,7 @@
         android:id="@+id/opc_chats"
         android:icon="@drawable/ic_chat_bubble_24"
         android:title="Chats" />
+    <item
+        android:id="@+id/opc_chat_ind"
+        android:title="Chat Individual" />
 </menu>

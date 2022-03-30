@@ -1,6 +1,5 @@
 package com.pai.pai
 
-import android.app.Notification
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -10,6 +9,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
+import com.pai.pai.fragments.ChatFragment
 
 class DrawerActivity : AppCompatActivity() {
 
@@ -48,8 +48,10 @@ class DrawerActivity : AppCompatActivity() {
                 R.id.opc_perfil -> {
                     cambiarFragmento(ProfileFragment(), "ProfileFragment")
                 }
-
                 R.id.opc_chats -> {
+                    cambiarFragmento(ChatFragment(), "ChatFragment")
+                }
+                R.id.opc_chat_ind -> {
                     cambiarFragmento(ChatFragment(), "ChatFragment")
                 }
                 else -> {

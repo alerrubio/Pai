@@ -11,26 +11,26 @@ import com.google.firebase.database.*
 import com.pai.pai.adapters.AdaptadorChat
 import com.pai.pai.models.Message
 
-class ChatActivity : AppCompatActivity() {
+class ChatIndividualActivity : AppCompatActivity() {
 
     private val listMessages = mutableListOf<Message>()
     private val chatAdaptador = AdaptadorChat(listMessages)
 
     private val database = FirebaseDatabase.getInstance()
-    private val chatRef = database.getReference("chats") //crea la rama o tabla de chats.
+    private val chatRef = database.getReference("chatsIndividuales/"+"claudia") //crea la rama o tabla de chats.
     private lateinit var nombreUsuario: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_chat)
+        setContentView(R.layout.activity_chat_individual)
 
         nombreUsuario = intent.getStringExtra("username") ?: "sin nombre"
 
-         val rvMensajes = findViewById<RecyclerView>(R.id.rv_Messages)
-         val btnEnviar = findViewById<Button>(R.id.btnEnviar_chat)
-         val txtMensaje = findViewById<EditText>(R.id.txtMensaje_chat)
-        val btnReturn = findViewById<ImageView>(R.id.btnRegresar_chatGrupal)
+        val rvMensajes = findViewById<RecyclerView>(R.id.rv_Messages)
+        val btnEnviar = findViewById<Button>(R.id.btnEnviar_chat)
+        val txtMensaje = findViewById<EditText>(R.id.txtMensaje_chat)
+        val btnReturn = findViewById<ImageView>(R.id.btnRegresar_chatInd)
         rvMensajes.adapter = chatAdaptador
 
         btnEnviar.setOnClickListener {
@@ -46,7 +46,6 @@ class ChatActivity : AppCompatActivity() {
         btnReturn.setOnClickListener {
             finish()
         }
-
     }
 
     private fun sendMessage(message: Message){
@@ -85,7 +84,7 @@ class ChatActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {
 
-                Toast.makeText(this@ChatActivity, "Error al leer mensajes", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ChatIndividualActivity, "Error al leer mensajes", Toast.LENGTH_SHORT).show()
             }
         })
     }
