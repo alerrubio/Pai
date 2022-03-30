@@ -12,21 +12,21 @@ import com.pai.pai.models.Message
 
 class ChatActivity : AppCompatActivity() {
 
-    private val listaMensajes = mutableListOf<Message>()
-    private val chatAdaptador = AdaptadorChat()
+    private val listMessages = mutableListOf<Message>()
+    private val chatAdaptador = AdaptadorChat(listMessages)
 
     private val database = FirebaseDatabase.getInstance()
     private val chatRef = database.getReference("chats") //crea la rama o tabla de chats.
 
-    private val rvMensajes = findViewById<RecyclerView>(R.id.rv_Messages)
-    private val btnEnviar = findViewById<Button>(R.id.btnEnviar_chat)
-    private val txtMensaje = findViewById<EditText>(R.id.txtMensaje_chat)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-
+         val rvMensajes = findViewById<RecyclerView>(R.id.rv_Messages)
+         val btnEnviar = findViewById<Button>(R.id.btnEnviar_chat)
+         val txtMensaje = findViewById<EditText>(R.id.txtMensaje_chat)
         rvMensajes.adapter = chatAdaptador
 
 
@@ -37,6 +37,8 @@ class ChatActivity : AppCompatActivity() {
                 sendMessage(Message("", mensaje, "yomero", ServerValue.TIMESTAMP))
             }
         }
+
+        getMessage()
 
     }
 
@@ -49,11 +51,14 @@ class ChatActivity : AppCompatActivity() {
 
     private fun getMessage() {
 
-        chatRef.addValueEventListener(object : ValueEventListener {
+        val rvMensajes = findViewById<RecyclerView>(R.id.rv_Messages)
+        rvMensajes.adapter = chatAdaptador
+
+        chatRef.addValueEventListener(object: ValueEventListener {
 
             override fun onDataChange(snapshot: DataSnapshot) {
 
-                listaMensajes.clear()
+                listMessages.clear()
 
                 for (snap in snapshot.children) {
 
@@ -62,12 +67,12 @@ class ChatActivity : AppCompatActivity() {
                     if (mensaje.from == "yomero")
                         mensaje.esMio = true
 
-                    listaMensajes.add(mensaje)
+                    listMessages.add(mensaje)
                 }
 
-                if (listaMensajes.size > 0) {
+                if (listMessages.size > 0) {
                     chatAdaptador.notifyDataSetChanged()
-                    rvMensajes.smoothScrollToPosition(listaMensajes.size - 1)
+                    rvMensajes.smoothScrollToPosition(listMessages.size - 1)
                 }
             }
 
