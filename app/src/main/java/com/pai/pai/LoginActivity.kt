@@ -71,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
 
             auth.currentUser?.updateProfile(request)?.addOnCompleteListener { respuestaCambioDeNombre ->
 
-                val intentChat = Intent(this, DrawerActivity::class.java)
+                val intentChat = Intent(this, ChatActivity::class.java)
                 intentChat.putExtra("username", auth.currentUser?.displayName)
 
                 startActivity(intentChat)
