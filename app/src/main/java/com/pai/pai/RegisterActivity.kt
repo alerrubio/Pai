@@ -20,7 +20,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val database = FirebaseDatabase.getInstance()
-    private val userRef = database.getReference("users")
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,9 +83,11 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun crearUsuarioBD(usuario: User, respuesta: Task<AuthResult>){
+
         if (respuesta.isSuccessful){
+            usuario.id = auth.currentUser?.uid.toString()
+            val userRef = database.getReference("users/" + usuario.id)
             val firebaseUser = userRef.push()
-            usuario.id = firebaseUser.key ?: ""
 
             firebaseUser.setValue(usuario)
         }else{

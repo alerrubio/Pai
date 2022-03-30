@@ -36,8 +36,10 @@
         <entry key="..\:/user/Documents/AndroidStudioProjects/PaiChatApp/Pai/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/user/Documents/AndroidStudioProjects/PaiChatApp/Pai/app/src/main/res/layout/activity_register.xml" value="0.33" />
         <entry key="..\:/user/Documents/AndroidStudioProjects/PaiChatApp/Pai/app/src/main/res/layout/activity_select_chat.xml" value="0.20416666666666666" />
+        <entry key="..\:/user/Documents/AndroidStudioProjects/PaiChatApp/Pai/app/src/main/res/layout/btn_chat_ind.xml" value="0.25" />
         <entry key="..\:/user/Documents/AndroidStudioProjects/PaiChatApp/Pai/app/src/main/res/layout/drawer_layout.xml" value="0.20416666666666666" />
-        <entry key="..\:/user/Documents/AndroidStudioProjects/PaiChatApp/Pai/app/src/main/res/layout/fragment_selector_chat.xml" value="0.20416666666666666" />
+        <entry key="..\:/user/Documents/AndroidStudioProjects/PaiChatApp/Pai/app/src/main/res/layout/fragment_selector_chat.xml" value="0.22" />
+        <entry key="..\:/user/Documents/AndroidStudioProjects/PaiChatApp/Pai/app/src/main/res/layout/messages_chat.xml" value="0.20416666666666666" />
         <entry key="..\:/user/Documents/AndroidStudioProjects/PaiChatApp/Pai/app/src/main/res/menu/menu_drawer.xml" value="0.20416666666666666" />
       </map>
     </option>

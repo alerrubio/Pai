@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.pai.pai.adapters.AdaptadorChat
 import com.pai.pai.models.Message
@@ -17,16 +18,22 @@ class ChatIndividualActivity : AppCompatActivity() {
     private val chatAdaptador = AdaptadorChat(listMessages)
 
     private val database = FirebaseDatabase.getInstance()
-    private val chatRef = database.getReference("chatsIndividuales/"+"claudia") //crea la rama o tabla de chats.
+    private var chatRef = database.getReference("")
     private lateinit var nombreUsuario: String
+    private lateinit var idUsuarioDestino: String
 
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val user = auth.currentUser
+    private val messageSenderID = user?.uid.toString()
 
+    private var messageRecieverID = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_individual)
 
         nombreUsuario = intent.getStringExtra("username") ?: "sin nombre"
-
+        idUsuarioDestino = intent.getStringExtra("user_id") ?: "sin id"
+        chatRef = database.getReference("chatsIndividuales/"+"idUsuarioDestino") //crea la rama o tabla de chats.
         val rvMensajes = findViewById<RecyclerView>(R.id.rv_Messages)
         val btnEnviar = findViewById<Button>(R.id.btnEnviar_chat)
         val txtMensaje = findViewById<EditText>(R.id.txtMensaje_chat)

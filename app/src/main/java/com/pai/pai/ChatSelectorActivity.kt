@@ -6,10 +6,16 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ServerValue
 import com.pai.pai.models.Message
 
 class ChatSelectorActivity : AppCompatActivity() {
+
+    private val database = FirebaseDatabase.getInstance()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_chat)
@@ -29,9 +35,15 @@ class ChatSelectorActivity : AppCompatActivity() {
 
         btnIndividual.setOnClickListener {
             val  activityIntent =  Intent(this,ChatIndividualActivity::class.java)
-            activityIntent.putExtra("username", username)
+
+            //TODO: MyFirebase.db.child("Developers").orderByChild("dcountry").equalTo("France")
+
+            activityIntent.putExtra("chat_id", username)
+
+            activityIntent.putExtra("user_id", "h6tF16CySCe3LdJuMXLgUl8TtwA2")
             startActivity(activityIntent)
         }
+
 
 
     }
