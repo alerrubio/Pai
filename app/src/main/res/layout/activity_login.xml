@@ -19,13 +19,13 @@
         app:srcCompat="@drawable/ic_logo" />
 
     <EditText
-        android:id="@+id/input_username"
+        android:id="@+id/input_email"
         android:layout_width="284dp"
         android:layout_height="52dp"
         android:layout_marginTop="60dp"
         android:ems="10"
-        android:hint="@string/username"
-        android:inputType="textPersonName"
+        android:hint="Correo electrónico"
+        android:inputType="textEmailAddress"
         android:textColor="#FFFFFF"
         android:textColorHint="#837A7A"
         android:textSize="24sp"
@@ -39,10 +39,10 @@
         android:id="@+id/lbl_Username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/username"
+        android:text="Correo electrónico"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/input_username"
+        app:layout_constraintBottom_toTopOf="@+id/input_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/lbl_Password"
@@ -61,10 +61,10 @@
         android:textColorHint="#837A7A"
         android:textSize="24sp"
         app:backgroundTint="#FFFFFFFF"
-        app:layout_constraintEnd_toEndOf="@+id/input_username"
+        app:layout_constraintEnd_toEndOf="@+id/input_email"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/input_username"
-        app:layout_constraintTop_toBottomOf="@+id/input_username" />
+        app:layout_constraintStart_toStartOf="@+id/input_email"
+        app:layout_constraintTop_toBottomOf="@+id/input_email" />
 
     <TextView
         android:id="@+id/lbl_Password"
@@ -78,7 +78,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.182"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_username"
+        app:layout_constraintTop_toBottomOf="@+id/input_email"
         app:layout_constraintVertical_bias="0.766" />
 
     <Button

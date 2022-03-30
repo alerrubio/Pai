@@ -20,7 +20,6 @@
         android:ems="10"
         android:layout_marginTop="16dp"
         android:hint="Apellido materno"
-        android:inputType="textPassword"
         android:textColor="#FFFFFF"
         android:textColorHint="#837A7A"
         android:textSize="24sp"
@@ -57,7 +56,6 @@
         android:ems="10"
         android:layout_marginTop="16dp"
         android:hint="Apellido paterno"
-        android:inputType="textPassword"
         android:textColor="#FFFFFF"
         android:textColorHint="#837A7A"
         android:textSize="24sp"
@@ -84,7 +82,6 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Nombre(s)"
-        android:inputType="textPassword"
         android:textColor="#FFFFFF"
         android:textColorHint="#837A7A"
         android:textSize="24sp"
@@ -226,10 +223,10 @@
         android:textStyle="bold"
         app:backgroundTint="@color/yellow"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/input_contraseña_R"
+        app:layout_constraintEnd_toEndOf="@+id/input_AM_R"
         app:layout_constraintHorizontal_bias="0.598"
-        app:layout_constraintStart_toStartOf="@+id/input_contraseña_R"
-        app:layout_constraintTop_toBottomOf="@+id/input_contraseña_R"
+        app:layout_constraintStart_toStartOf="@+id/input_AM_R"
+        app:layout_constraintTop_toBottomOf="@+id/input_AM_R"
         app:layout_constraintVertical_bias="0.963" />
 
 

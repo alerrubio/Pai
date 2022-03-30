@@ -2,6 +2,7 @@ package com.pai.pai
 
 import android.app.Notification
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -11,6 +12,8 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 
 class DrawerActivity : AppCompatActivity() {
+
+    private lateinit var nombreUsuario: String
 
     fun cambiarFragmento(fragmentoNuevo: Fragment, tag: String){
 
@@ -36,7 +39,9 @@ class DrawerActivity : AppCompatActivity() {
         miDrawer.addDrawerListener(toggle)
         toggle.syncState()
 
+        nombreUsuario = intent.getStringExtra("username") ?: "sin_nombre"
 
+        Toast.makeText(this, "Usario " + nombreUsuario, Toast.LENGTH_SHORT).show()
 
         miNav.setNavigationItemSelectedListener {
             when(it.itemId){
