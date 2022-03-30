@@ -29,6 +29,8 @@ class ChatActivity : AppCompatActivity() {
          val txtMensaje = findViewById<EditText>(R.id.txtMensaje_chat)
         rvMensajes.adapter = chatAdaptador
 
+        val btnEnviar = findViewById<Button>(R.id.btnEnviar_chat)
+        val txtMensaje = findViewById<EditText>(R.id.txtMensaje_chat)
 
         btnEnviar.setOnClickListener {
             val mensaje = txtMensaje.text.toString()
