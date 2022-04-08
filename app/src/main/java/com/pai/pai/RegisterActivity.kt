@@ -86,7 +86,7 @@ class RegisterActivity : AppCompatActivity() {
 
         if (respuesta.isSuccessful){
             usuario.id = auth.currentUser?.uid.toString()
-            val userRef = database.getReference("users/" + usuario.id)
+            val userRef = database.getReference("users/")
             val firebaseUser = userRef.push()
 
             firebaseUser.setValue(usuario)

@@ -12,7 +12,7 @@
         android:layout_height="100dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/ic_person_24" />
 
     <TextView
         android:id="@+id/textView"
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:padding="8dp"
-        android:text="Ejemplo de Usuario"
+        android:text="Usuario"
         android:textColor="@color/yellow"
         android:textSize="20sp"
         android:textStyle="bold" />
