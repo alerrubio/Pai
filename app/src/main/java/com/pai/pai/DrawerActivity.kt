@@ -8,12 +8,17 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import com.pai.pai.adapters.ViewPagerAdapater
 import com.pai.pai.fragments.ChatFragment
 
 class DrawerActivity : AppCompatActivity() {
 
     private lateinit var nombreUsuario: String
+    private val adapter by lazy{ ViewPagerAdapater(this) }
 
     fun cambiarFragmento(fragmentoNuevo: Fragment, tag: String){
 
@@ -41,7 +46,7 @@ class DrawerActivity : AppCompatActivity() {
 
         nombreUsuario = intent.getStringExtra("username") ?: "sin_nombre"
 
-        Toast.makeText(this, "Usario " + nombreUsuario, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Usuario " + nombreUsuario, Toast.LENGTH_SHORT).show()
 
         miNav.setNavigationItemSelectedListener {
             when(it.itemId){
@@ -64,6 +69,32 @@ class DrawerActivity : AppCompatActivity() {
 
             true
         }
+
+        //nav tablelayout
+        val pagerMain =  findViewById<ViewPager2>(R.id.pager)
+        pagerMain.adapter =  this.adapter
+
+        val tab_layoutMain =  findViewById<TabLayout>(R.id.tab_layout)
+
+        //Aqui ya sabe quien es nuestro tab, y quien nuestro pager
+        val tabLayoutMediator =  TabLayoutMediator(tab_layoutMain,pagerMain
+            , TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+                when(position){
+                    0-> {
+                        tab.text =  "Chats"
+                        tab.setIcon(R.drawable.ic_chat_bubble_24)
+                    }
+                    1-> {
+                        tab.text =  "Contactos"
+                        tab.setIcon(R.drawable.ic_person_24)
+                    }
+                    2-> {
+                        tab.text =  "Tareas"
+                        tab.setIcon(R.drawable.ic_event_note_24)
+                    }
+                }
+            })
+        tabLayoutMediator.attach()
 
     }
 }

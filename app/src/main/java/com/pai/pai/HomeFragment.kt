@@ -1,4 +1,5 @@
 package com.pai.pai
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,7 +10,7 @@ import android.widget.TextView
 /**
  * A simple [Fragment] subclass.
  */
-class ProfileFragment : Fragment() {
+class HomeFragment : Fragment() {
 
     companion object{
         private  const val ARG_OBJECT = "object"

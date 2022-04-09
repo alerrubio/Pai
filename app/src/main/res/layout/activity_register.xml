@@ -113,7 +113,6 @@
         android:textSize="24sp"
         app:backgroundTint="#FFFFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lbl_Email_R" />
 
@@ -153,7 +152,6 @@
         android:textSize="24sp"
         app:backgroundTint="#FFFFFFFF"
         app:layout_constraintEnd_toEndOf="@+id/input_email_R"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/input_email_R"
         app:layout_constraintTop_toBottomOf="@+id/lbl_Username_R" />
 
@@ -223,11 +221,9 @@
         android:textStyle="bold"
         app:backgroundTint="@color/yellow"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/input_AM_R"
-        app:layout_constraintHorizontal_bias="0.598"
-        app:layout_constraintStart_toStartOf="@+id/input_AM_R"
-        app:layout_constraintTop_toBottomOf="@+id/input_AM_R"
-        app:layout_constraintVertical_bias="0.963" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_AM_R" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
