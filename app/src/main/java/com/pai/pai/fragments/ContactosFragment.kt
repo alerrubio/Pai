@@ -1,5 +1,6 @@
 package com.pai.pai.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -29,10 +30,19 @@ private const val ARG_PARAM2 = "param2"
  */
 class ContactosFragment : Fragment() {
 
+
+    private var context2: Context? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        this.context2 = context
+    }
+
+
     private val database = FirebaseDatabase.getInstance()
     private val userRef = database.getReference("users")
     private val usuarios = mutableListOf<User>()
-    private val contactosAdaptador = AdaptadorContactos(usuarios)
+    private var contactosAdaptador:AdaptadorContactos? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +56,8 @@ class ContactosFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.activity_contactos, container, false)
 
+
+        this.contactosAdaptador = AdaptadorContactos(usuarios, this.context2!!)
         getContacts(view)
 
         return view
@@ -70,7 +82,7 @@ class ContactosFragment : Fragment() {
                 }
 
                 if (usuarios.size > 0) {
-                    contactosAdaptador.notifyDataSetChanged()
+                    contactosAdaptador?.notifyDataSetChanged()
                     rv_contactos.smoothScrollToPosition(usuarios.size - 1)
                 }
             }

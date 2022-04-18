@@ -19,6 +19,7 @@ class ChatActivity : AppCompatActivity() {
     private val database = FirebaseDatabase.getInstance()
     private val chatRef = database.getReference("chats") //crea la rama o tabla de chats.
     private lateinit var nombreUsuario: String
+    private lateinit var idUsuario: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +27,9 @@ class ChatActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chat)
 
         nombreUsuario = intent.getStringExtra("username") ?: "sin nombre"
+
+        idUsuario = intent.getStringExtra("idUsuario") ?: "sin id"
+        Toast.makeText(this, idUsuario, Toast.LENGTH_SHORT).show()
 
          val rvMensajes = findViewById<RecyclerView>(R.id.rv_Messages)
          val btnEnviar = findViewById<Button>(R.id.btnEnviar_chat)

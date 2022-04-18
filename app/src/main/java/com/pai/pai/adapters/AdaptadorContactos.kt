@@ -1,6 +1,7 @@
 package com.pai.pai.adapters
 
-import android.view.Gravity
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,24 +10,28 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.pai.pai.ChatActivity
 import com.pai.pai.R
-import com.pai.pai.models.Message
 import com.pai.pai.models.User
-import org.w3c.dom.Text
-import java.text.SimpleDateFormat
-import java.util.*
 
-class AdaptadorContactos(private val listaUsuarios: MutableList<User>):
+class AdaptadorContactos(private val listaUsuarios: MutableList<User>, val context: Context):
     RecyclerView.Adapter<AdaptadorContactos.ContactViewHolder>() {
 
-    class ContactViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    private lateinit var tvUserId: TextView
+
+
+    inner class ContactViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener{
         fun asignarInformacion(usuario: User){
 
             val tvUsername = itemView.findViewById<TextView>(R.id.tv_nombre_contacto)
             val ivUser = itemView.findViewById<ImageView>(R.id.iv_contacto)
             val contenedorContacto = itemView.findViewById<LinearLayout>(R.id.contenedor_contacto)
+            tvUserId = itemView.findViewById<TextView>(R.id.tv_userid)
+
+
 
             tvUsername.text = usuario.username
+            tvUserId.text = usuario.id
             //TODO agregar imagen del usuario ivUser = blalvlavla
 
 
@@ -37,8 +42,32 @@ class AdaptadorContactos(private val listaUsuarios: MutableList<User>):
                 params.height
             )
             contenedorContacto.layoutParams = newParams
+
         }
+
+
+        init{
+            itemView.setOnClickListener(this)
+        }
+        override fun onClick(v: View?) {
+
+            when(v!!.id){
+                R.id.Frame->{
+                    //Lanzamos el intent para abrir el detall
+                    val  activityIntent =  Intent(context, ChatActivity::class.java)
+                    activityIntent.putExtra("idUsuario", tvUserId.text)
+                    context.startActivity(activityIntent)
+                }
+            }
+        }
+
     }
+
+
+
+
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
         val miView = LayoutInflater.from(parent.context).inflate(R.layout.item_contacto, parent, false)
@@ -47,6 +76,7 @@ class AdaptadorContactos(private val listaUsuarios: MutableList<User>):
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
         holder.asignarInformacion(listaUsuarios[position])
+
     }
 
     override fun getItemCount(): Int = listaUsuarios.size
