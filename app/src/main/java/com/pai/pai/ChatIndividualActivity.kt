@@ -52,7 +52,7 @@ class ChatIndividualActivity : AppCompatActivity() {
         val btnReturn = findViewById<ImageView>(R.id.btnRegresar_chatInd)
         rvMensajes.adapter = chatAdaptador
 
-        createChat(Chat("", idUsuarioDestino, user!!.uid), idUsuarioDestino)
+        createOrFindChat(Chat("", idUsuarioDestino, user!!.uid), idUsuarioDestino)
 
 
         btnEnviar.setOnClickListener {
@@ -70,7 +70,7 @@ class ChatIndividualActivity : AppCompatActivity() {
         }
     }
 
-    private fun createChat(chat: Chat, idUsuarioDestino: String){
+    private fun createOrFindChat(chat: Chat, idUsuarioDestino: String){
 
 
 
