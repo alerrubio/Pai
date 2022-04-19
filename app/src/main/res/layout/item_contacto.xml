@@ -42,10 +42,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="TextView"
-<<<<<<< Updated upstream
-            android:visibility="visible" />
-=======
             android:visibility="gone" />
->>>>>>> Stashed changes
     </LinearLayout>
 </FrameLayout>

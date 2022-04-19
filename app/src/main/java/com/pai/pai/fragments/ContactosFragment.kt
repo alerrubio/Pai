@@ -8,10 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-<<<<<<< Updated upstream
-=======
 import com.google.firebase.auth.FirebaseAuth
->>>>>>> Stashed changes
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -34,11 +31,8 @@ private const val ARG_PARAM2 = "param2"
  */
 class ContactosFragment : Fragment() {
 
-<<<<<<< Updated upstream
-=======
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val user = auth.currentUser
->>>>>>> Stashed changes
 
     private var context2: Context? = null
 
@@ -87,13 +81,9 @@ class ContactosFragment : Fragment() {
 
                     val usuario: User = snap.getValue(User::class.java) as User
 
-<<<<<<< Updated upstream
-                    usuarios.add(usuario)
-=======
                     if(usuario.id != user!!.uid){
                         usuarios.add(usuario)
                     }
->>>>>>> Stashed changes
                 }
 
                 if (usuarios.size > 0) {
