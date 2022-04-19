@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.pai.pai.ChatActivity
+import com.pai.pai.ChatIndividualActivity
 import com.pai.pai.R
 import com.pai.pai.models.User
 
@@ -54,8 +55,8 @@ class AdaptadorContactos(private val listaUsuarios: MutableList<User>, val conte
             when(v!!.id){
                 R.id.Frame->{
                     //Lanzamos el intent para abrir el detall
-                    val  activityIntent =  Intent(context, ChatActivity::class.java)
-                    activityIntent.putExtra("idUsuario", tvUserId.text)
+                    val  activityIntent =  Intent(context, ChatIndividualActivity::class.java)
+                    activityIntent.putExtra("idUsuario", this.itemView.findViewById<TextView>(R.id.tv_userid).text)
                     context.startActivity(activityIntent)
                 }
             }

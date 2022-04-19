@@ -10,9 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.pai.pai.adapters.AdaptadorChat
+import com.pai.pai.models.Chat
 import com.pai.pai.models.Message
+import kotlin.system.exitProcess
 
 class ChatIndividualActivity : AppCompatActivity() {
+
+
+
 
     private val listMessages = mutableListOf<Message>()
     private val chatAdaptador = AdaptadorChat(listMessages)
@@ -27,18 +32,28 @@ class ChatIndividualActivity : AppCompatActivity() {
     private val messageSenderID = user?.uid.toString()
 
     private var messageRecieverID = ""
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_individual)
 
+        idUsuarioDestino = intent.getStringExtra("idUsuario") ?: "sin id"
+        //Toast.makeText(this, idUsuarioDestino, Toast.LENGTH_SHORT).show()
+
+
+
         nombreUsuario = intent.getStringExtra("username") ?: "sin nombre"
-        idUsuarioDestino = intent.getStringExtra("user_id") ?: "sin id"
-        chatRef = database.getReference("chatsIndividuales/"+"idUsuarioDestino") //crea la rama o tabla de chats.
+
+        chatRef = database.getReference("chats/chatsIndividuales") //crea la rama o tabla de chats.
         val rvMensajes = findViewById<RecyclerView>(R.id.rv_Messages)
         val btnEnviar = findViewById<Button>(R.id.btnEnviar_chat)
         val txtMensaje = findViewById<EditText>(R.id.txtMensaje_chat)
         val btnReturn = findViewById<ImageView>(R.id.btnRegresar_chatInd)
         rvMensajes.adapter = chatAdaptador
+
+        createChat(Chat("", idUsuarioDestino, user!!.uid), idUsuarioDestino)
+
 
         btnEnviar.setOnClickListener {
             val mensaje = txtMensaje.text.toString()
@@ -53,6 +68,45 @@ class ChatIndividualActivity : AppCompatActivity() {
         btnReturn.setOnClickListener {
             finish()
         }
+    }
+
+    private fun createChat(chat: Chat, idUsuarioDestino: String){
+
+
+
+        chatRef.addValueEventListener(object: ValueEventListener {
+
+            var flag = false
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                for (snap in snapshot.children) {
+
+                    val chat2: Chat = snap.getValue(Chat::class.java) as Chat
+
+                    if((idUsuarioDestino == chat2.user1 || idUsuarioDestino == chat2.user2) && (user!!.uid == chat2.user1 || user!!.uid == chat2.user2)){
+                        chatRef = database.getReference("chats/chatsIndividuales/"+chat2.id)
+                        Toast.makeText(this@ChatIndividualActivity, "Sí existe el chat", Toast.LENGTH_SHORT).show()
+                        flag = true
+                        break
+                    }
+
+                }
+
+                if(!flag){
+                    val firebaseMsg = chatRef.push()
+                    chat.id = firebaseMsg.key ?: ""
+                    Toast.makeText(this@ChatIndividualActivity, "Ya se creó el chat", Toast.LENGTH_SHORT).show()
+                    firebaseMsg.setValue(chat)
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+                Toast.makeText(this@ChatIndividualActivity, "Error al leer mensajes", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun sendMessage(message: Message){
