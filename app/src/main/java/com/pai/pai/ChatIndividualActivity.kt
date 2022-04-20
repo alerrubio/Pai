@@ -12,6 +12,7 @@ import com.google.firebase.database.*
 import com.pai.pai.adapters.AdaptadorChat
 import com.pai.pai.models.Chat
 import com.pai.pai.models.Message
+import javax.security.auth.callback.Callback
 import kotlin.system.exitProcess
 
 class ChatIndividualActivity : AppCompatActivity() {
@@ -21,6 +22,8 @@ class ChatIndividualActivity : AppCompatActivity() {
 
     private val listMessages = mutableListOf<Message>()
     private val chatAdaptador = AdaptadorChat(listMessages)
+
+    private var textRef = ""
 
     private val database = FirebaseDatabase.getInstance()
     private lateinit var chatRef: DatabaseReference
@@ -44,7 +47,7 @@ class ChatIndividualActivity : AppCompatActivity() {
 
 
 
-        nombreUsuario = intent.getStringExtra("username") ?: "sin nombre"
+        nombreUsuario = intent.getStringExtra("nombreUsuario") ?: "sin nombre"
 
         //chatRef = database.getReference("chats/chatsIndividuales") //crea la rama o tabla de chats.
         val rvMensajes = findViewById<RecyclerView>(R.id.rv_Messages)
@@ -53,29 +56,36 @@ class ChatIndividualActivity : AppCompatActivity() {
         val btnReturn = findViewById<ImageView>(R.id.btnRegresar_chatInd)
         rvMensajes.adapter = chatAdaptador
 
-        chatRef = createOrFindChat(Chat("", idUsuarioDestino, user!!.uid), idUsuarioDestino)
 
+
+        createOrFindChat(Chat("", idUsuarioDestino, user!!.uid), idUsuarioDestino, object: Callbacks{
+            override fun assingRef(reference: String) {
+                chatRef = database.getReference(reference)
+
+
+                getMessage()
+            }
+        })
 
         btnEnviar.setOnClickListener {
             val mensaje = txtMensaje.text.toString()
             if(mensaje.isNotEmpty()){
                 txtMensaje.text.clear()
-                sendMessage(Message("", mensaje, nombreUsuario, ServerValue.TIMESTAMP))
+                sendMessage(Message("", mensaje, user!!.uid, ServerValue.TIMESTAMP))
             }
         }
 
-        getMessage()
 
         btnReturn.setOnClickListener {
             finish()
         }
     }
 
-    private fun createOrFindChat(chat: Chat, idUsuarioDestino: String): DatabaseReference{
+    private fun createOrFindChat(chat: Chat, idUsuarioDestino: String, callback: Callbacks){
 
-        msgRef = database.getReference("chats/chatsIndividuales") //crea la rama o tabla de chats.
+        chatRef = database.getReference("chats/chatsIndividuales") //crea la rama o tabla de chats.
 
-        msgRef.addValueEventListener(object: ValueEventListener {
+        chatRef.addValueEventListener(object: ValueEventListener {
 
             var flag = false
 
@@ -86,7 +96,9 @@ class ChatIndividualActivity : AppCompatActivity() {
                     val chat2: Chat = snap.getValue(Chat::class.java) as Chat
 
                     if((idUsuarioDestino == chat2.user1 || idUsuarioDestino == chat2.user2) && (user!!.uid == chat2.user1 || user!!.uid == chat2.user2)){
-                        msgRef = database.getReference("chats/chatsIndividuales/"+chat2.id).child("Mensajes")
+                        chatRef = database.getReference("chats/chatsIndividuales/"+chat2.id).child("Mensajes")
+                        textRef = "chats/chatsIndividuales/"+chat2.id+"/Mensajes"
+                        callback.assingRef(textRef)
                         Toast.makeText(this@ChatIndividualActivity, "Sí existe el chat", Toast.LENGTH_SHORT).show()
                         flag = true
                         break
@@ -99,22 +111,22 @@ class ChatIndividualActivity : AppCompatActivity() {
                     chat.id = firebaseMsg.key ?: ""
                     Toast.makeText(this@ChatIndividualActivity, "Ya se creó el chat", Toast.LENGTH_SHORT).show()
                     firebaseMsg.setValue(chat)
-                    msgRef = database.getReference("chats/chatsIndividuales/"+chat.id+"/Mensajes")
+                    chatRef = database.getReference("chats/chatsIndividuales/"+chat.id+"/Mensajes")
+                    textRef = "chats/chatsIndividuales/"+chat.id+"/Mensajes"
                 }
 
             }
+
+
 
             override fun onCancelled(error: DatabaseError) {
 
                 Toast.makeText(this@ChatIndividualActivity, "Error al leer mensajes", Toast.LENGTH_SHORT).show()
             }
         })
-
-        return msgRef
     }
 
     private fun sendMessage(message: Message){
-        chatRef = msgRef
         val firebaseMsg = chatRef.push()
         message.id = firebaseMsg.key ?: ""
 
@@ -137,8 +149,14 @@ class ChatIndividualActivity : AppCompatActivity() {
 
                     val mensaje: Message = snap.getValue(Message::class.java) as Message
 
-                    if (mensaje.from == nombreUsuario)
+                    if (mensaje.from == user!!.uid){
                         mensaje.esMio = true
+                        mensaje.from = user.displayName.toString()
+                    }
+                    else {
+                        mensaje.from = nombreUsuario
+                    }
+
 
                     listMessages.add(mensaje)
                 }
@@ -154,5 +172,10 @@ class ChatIndividualActivity : AppCompatActivity() {
                 Toast.makeText(this@ChatIndividualActivity, "Error al leer mensajes", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    interface Callbacks{
+
+        fun assingRef(reference: String)
     }
 }

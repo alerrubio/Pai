@@ -57,18 +57,13 @@ class AdaptadorContactos(private val listaUsuarios: MutableList<User>, val conte
                     //Lanzamos el intent para abrir el detall
                     val  activityIntent =  Intent(context, ChatIndividualActivity::class.java)
                     activityIntent.putExtra("idUsuario", this.itemView.findViewById<TextView>(R.id.tv_userid).text)
+                    activityIntent.putExtra("nombreUsuario", this.itemView.findViewById<TextView>(R.id.tv_nombre_contacto).text)
                     context.startActivity(activityIntent)
                 }
             }
         }
 
     }
-
-
-
-
-
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
         val miView = LayoutInflater.from(parent.context).inflate(R.layout.item_contacto, parent, false)

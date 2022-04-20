@@ -66,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
             //TODO("Sacar la info del usuario de la BD")
 
             val request = userProfileChangeRequest {
-                displayName = "El Draken"
+                displayName = auth.currentUser!!.displayName
             }
 
             auth.currentUser?.updateProfile(request)?.addOnCompleteListener { respuestaCambioDeNombre ->
