@@ -48,8 +48,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#252525"
+                    app:tabIconTint="@color/tab_selector"
                     app:tabSelectedTextColor="@color/yellow"
                     app:tabTextColor="@color/white"/>
+
             </LinearLayout>
 
         </FrameLayout>
