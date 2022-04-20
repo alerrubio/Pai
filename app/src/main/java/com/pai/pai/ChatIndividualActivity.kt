@@ -154,6 +154,7 @@ class ChatIndividualActivity : AppCompatActivity() {
                     }
                     else {
                         mensaje.from = nombreUsuario
+                        mensaje.esMio = false
                     }
 
 

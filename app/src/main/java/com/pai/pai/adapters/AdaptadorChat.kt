@@ -44,6 +44,7 @@ class AdaptadorChat(private val listaMensajes: MutableList<Message>):
                     params.height,
                     Gravity.END
                 )
+                contenedorMensaje.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#d0b616"))
                 contenedorMensaje.layoutParams = newParams
 
             } else {
@@ -51,7 +52,7 @@ class AdaptadorChat(private val listaMensajes: MutableList<Message>):
                 val newParams = FrameLayout.LayoutParams(
                     params.width,
                     params.height,
-                    Gravity.START,
+                    Gravity.START
 
                 )
                 //contenedorMensaje.setBackgroundColor(Color.parseColor("#3E3C3C"))

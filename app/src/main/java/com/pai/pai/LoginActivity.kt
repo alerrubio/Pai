@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
@@ -49,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
         val email = findViewById<EditText>(R.id.input_email).text.toString()
         val pwd = findViewById<EditText>(R.id.input_password).text.toString()
 
-        if (email.isEmpty() && pwd.isEmpty() ) {
+        if (email.isEmpty() || pwd.isEmpty()) {
 
             Toast.makeText(this, "Introduzca sus credenciales", Toast.LENGTH_SHORT).show()
         }
@@ -78,13 +79,18 @@ class LoginActivity : AppCompatActivity() {
             }
         } else {
 
-            val errorCode = (respuesta.exception as FirebaseAuthInvalidCredentialsException).errorCode
+            val errorCode = (respuesta.exception as FirebaseAuthException).errorCode
             when(errorCode) {
+
+                "ERROR_WRONG_PASSWORD" -> {
+                    Toast.makeText(this, "La contraseña es incorrecta", Toast.LENGTH_SHORT).show()
+                }
                 "ERROR_INVALID_EMAIL" -> {
                     Toast.makeText(this, "Este correo no se puede usar o tiene formato incorrecto", Toast.LENGTH_SHORT).show()
                 }
-                "ERROR_WEAK_PASSWORD" -> {
-                    Toast.makeText(this, "La contraseña debe contener al menos 6 caracteres", Toast.LENGTH_SHORT).show()
+
+                "ERROR_USER_NOT_FOUND" -> {
+                    Toast.makeText(this, "Esta cuenta no está registrada", Toast.LENGTH_SHORT).show()
                 }
             }
         }
