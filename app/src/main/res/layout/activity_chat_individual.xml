@@ -10,6 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/rv_Messages"
+        app:layout_constraintStart_toStartOf="@+id/rv_Messages"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -17,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:padding="8dp"
             app:srcCompat="@drawable/ic_arrow_back_ios_24" />
 
         <ImageView
@@ -28,11 +31,11 @@
             app:srcCompat="@drawable/ic_person_24" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/tv_UserChat"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
+            android:layout_weight="7"
+            android:gravity="center|start"
             android:text="Nombre del usuario"
             android:textAllCaps="false"
             android:textSize="24sp" />
@@ -56,9 +59,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:ems="10"
+        android:hint="Escribe tu mensaje"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="Name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnEnviar_chat"
         app:layout_constraintStart_toStartOf="parent" />

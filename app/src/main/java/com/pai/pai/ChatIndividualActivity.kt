@@ -2,10 +2,7 @@ package com.pai.pai
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -48,6 +45,8 @@ class ChatIndividualActivity : AppCompatActivity() {
 
 
         nombreUsuario = intent.getStringExtra("nombreUsuario") ?: "sin nombre"
+
+        findViewById<TextView>(R.id.tv_UserChat).text = nombreUsuario
 
         //chatRef = database.getReference("chats/chatsIndividuales") //crea la rama o tabla de chats.
         val rvMensajes = findViewById<RecyclerView>(R.id.rv_Messages)
