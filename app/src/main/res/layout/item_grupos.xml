@@ -12,6 +12,7 @@
     android:backgroundTint="@color/orange">
 
     <LinearLayout
+        android:id="@+id/contenedor_grupos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
@@ -20,7 +21,7 @@
         android:paddingBottom="10sp">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/iv_grupo"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_weight="1"
@@ -28,7 +29,7 @@
             tools:srcCompat="@drawable/ic_logo" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/tv_nombre_grupo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="3"
@@ -37,7 +38,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/tv_groupid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
