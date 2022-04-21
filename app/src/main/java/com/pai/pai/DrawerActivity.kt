@@ -46,8 +46,6 @@ class DrawerActivity : AppCompatActivity() {
 
         nombreUsuario = intent.getStringExtra("username") ?: "sin_nombre"
 
-        Toast.makeText(this, "Usuario " + nombreUsuario, Toast.LENGTH_SHORT).show()
-
         miNav.setNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.opc_perfil -> {

@@ -14,9 +14,6 @@ import kotlin.system.exitProcess
 
 class ChatIndividualActivity : AppCompatActivity() {
 
-
-
-
     private val listMessages = mutableListOf<Message>()
     private val chatAdaptador = AdaptadorChat(listMessages)
 
