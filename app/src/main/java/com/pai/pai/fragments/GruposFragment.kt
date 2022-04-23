@@ -51,15 +51,15 @@ class GruposFragment: Fragment() {
 
 
         this.gruposAdaptador = AdaptadorGrupos(grupos, this.context2!!)
-        getContacts(view)
+        getGroups(view)
 
         return view
     }
 
-    private fun getContacts(view: View) {
+    private fun getGroups(view: View) {
 
-        val rv_contactos = view.findViewById<RecyclerView>(R.id.rv_contactos)
-        rv_contactos.adapter = gruposAdaptador
+        val rv_grupos = view.findViewById<RecyclerView>(R.id.rv_grupos)
+        rv_grupos.adapter = gruposAdaptador
 
         userRef.addValueEventListener(object: ValueEventListener {
 
@@ -81,7 +81,7 @@ class GruposFragment: Fragment() {
 
                 if (grupos.size > 0) {
                     gruposAdaptador?.notifyDataSetChanged()
-                    rv_contactos.smoothScrollToPosition(grupos.size - 1)
+                    rv_grupos.smoothScrollToPosition(grupos.size - 1)
                 }
             }
 

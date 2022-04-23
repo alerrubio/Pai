@@ -79,7 +79,7 @@ class DrawerActivity : AppCompatActivity() {
             , TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                 when(position){
                     0-> {
-                        tab.text =  "Chats"
+                        tab.text =  "Grupos"
                         tab.setIcon(R.drawable.ic_chat_bubble_24)
                     }
                     1-> {

@@ -8,6 +8,7 @@ import com.pai.pai.HomeFragment
 import com.pai.pai.ProfileFragment
 import com.pai.pai.RegisterFragment
 import com.pai.pai.fragments.ContactosFragment
+import com.pai.pai.fragments.GruposFragment
 
 //Extiende de FragmentStateAdapter
 
@@ -27,7 +28,7 @@ class ViewPagerAdapater(fragment: FragmentActivity) : FragmentStateAdapter(fragm
 
         when(position){
             0 -> {
-                fragment = HomeFragment()
+                fragment = GruposFragment()
                 fragment.arguments = Bundle().apply {
                     // Our object is just an integer :-P
                     putInt(ARG_OBJECT, position + 1)
