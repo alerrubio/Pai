@@ -60,21 +60,11 @@
         android:layout_margin="8dp"
         android:ems="10"
         android:hint="Escribe tu mensaje"
-        android:inputType="textMultiLine|textPersonName"
-        android:maxHeight="100dp"
+        android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:backgroundTint="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/btnEnviar_chat"
-        app:layout_constraintTop_toTopOf="@+id/txtMensaje_chat"
-        app:srcCompat="@drawable/ic_baseline_location_on_24" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnEnviar_chat"
@@ -82,8 +72,7 @@
         android:layout_height="wrap_content"
         android:text="Enviar"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/rv_Messages"
-        app:layout_constraintTop_toTopOf="@+id/imageButton"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtMensaje_chat" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
