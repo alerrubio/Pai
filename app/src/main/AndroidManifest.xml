@@ -5,8 +5,8 @@
     <!-- Permiso para poder usar el internet del usuario -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- Permiso para poder usar la ubicación  del usuario -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
 
 
     <application
