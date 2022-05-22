@@ -1,14 +1,7 @@
 package com.pai.pai
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.location.Geocoder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import androidx.core.app.ActivityCompat
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -17,25 +10,16 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.pai.pai.databinding.ActivityMapsBinding
-import java.util.*
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
-    private lateinit var btnMaps: Button
-    private lateinit var geocoder: Geocoder
-    private lateinit var coordenadas: LatLng
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_maps)
 
-
-        btnMaps = findViewById(R.id.btn_maps)
-        btnMaps.setOnClickListener{
-            traducirCoordenadas()
-        }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -54,63 +38,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        activateMyLocation()
-
-        mMap.setOnMapClickListener { coordenada ->
-
-            this.coordenadas = coordenada
-            mMap.clear()
-            mMap.addMarker(MarkerOptions().position(coordenadas))
-            btnMaps.isEnabled = true
-
-        }
 
         // Add a marker in Sydney and move the camera
-        val monterrey = LatLng(25.67, -100.31)
-        mMap.addMarker(MarkerOptions().position(monterrey).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(monterrey, 10F))
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        setResult(RESULT_CANCELED)
-    }
-
-
-    private fun traducirCoordenadas() {
-
-        geocoder = Geocoder(this, Locale.getDefault())
-
-        //Función asíncrona
-        Thread {
-
-            val direcciones = geocoder.getFromLocation(coordenadas.latitude, coordenadas.longitude, 1)
-            if (direcciones.size > 0) {
-
-                val direccion = direcciones[0].getAddressLine(0)
-
-                setResult(RESULT_OK, Intent().putExtra("ubicacion", direccion))
-                finish()
-            } else {
-                finish()
-            }
-        }.start()
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun activateMyLocation(){
-
-
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-
-            mMap.isMyLocationEnabled = true
-        }
+        val sydney = LatLng(-34.0, 151.0)
+        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 }
