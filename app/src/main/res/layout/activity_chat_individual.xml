@@ -64,17 +64,18 @@
         android:maxHeight="100dp"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintEnd_toStartOf="@+id/btn_ubicacion"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/btn_ubicacion"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:backgroundTint="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/btnEnviar_chat"
         app:layout_constraintTop_toTopOf="@+id/txtMensaje_chat"
-        app:srcCompat="@drawable/ic_baseline_location_on_24" />
+        app:srcCompat="@drawable/ic_baseline_location_on_24"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/btnEnviar_chat"
@@ -83,7 +84,7 @@
         android:text="Enviar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/rv_Messages"
-        app:layout_constraintTop_toTopOf="@+id/imageButton"
+        app:layout_constraintTop_toTopOf="@+id/btn_ubicacion"
         app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
