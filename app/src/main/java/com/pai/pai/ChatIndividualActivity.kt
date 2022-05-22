@@ -1,12 +1,8 @@
 package com.pai.pai
 
-import android.Manifest
-import android.content.Intent
-import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
-import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -54,7 +50,6 @@ class ChatIndividualActivity : AppCompatActivity() {
         val btnEnviar = findViewById<Button>(R.id.btnEnviar_chat)
         val txtMensaje = findViewById<EditText>(R.id.txtMensaje_chat)
         val btnReturn = findViewById<ImageView>(R.id.btnRegresar_chatInd)
-        val btnUbicacion = findViewById<ImageButton>(R.id.btn_ubicacion)
         rvMensajes.adapter = chatAdaptador
 
 
@@ -76,9 +71,6 @@ class ChatIndividualActivity : AppCompatActivity() {
             }
         }
 
-        btnUbicacion.setOnClickListener{
-            revisarPermisos()
-        }
 
         btnReturn.setOnClickListener {
             finish()
@@ -177,57 +169,6 @@ class ChatIndividualActivity : AppCompatActivity() {
                 Toast.makeText(this@ChatIndividualActivity, "Error al leer mensajes", Toast.LENGTH_SHORT).show()
             }
         })
-    }
-
-
-    private fun revisarPermisos() {
-        // Apartir de Android 6.0+ necesitamos pedir el permiso de ubicacion
-        // directamente en tiempo de ejecucion de la app
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // Si no tenemos permiso para la ubicacion
-            // Solicitamos permiso
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ),
-                1
-            )
-        } else {
-            // Ya se han concedido los permisos anteriormente
-            abrirMapa()
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (grantResults.isNotEmpty()) {
-            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Se requiere aceptar el permiso", Toast.LENGTH_SHORT).show()
-                revisarPermisos()
-            } else {
-                Toast.makeText(this, "Permisio concedido", Toast.LENGTH_SHORT).show()
-                abrirMapa()
-            }
-        }
-    }
-
-    private fun abrirMapa() {
-
-        startActivityForResult(Intent(this, MapsActivity::class.java), 1)
     }
 
     interface Callbacks{
