@@ -10,11 +10,13 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.pai.pai.ChatActivity
 import com.pai.pai.GroupActivity
 import com.pai.pai.R
 import com.pai.pai.models.GroupObject
 import com.pai.pai.models.Grupos
 import com.pai.pai.models.Subgrupo
+import com.pai.pai.models.SubgrupoObject
 
 class AdaptadorSubgrupos (private val listaGrupos: MutableList<Subgrupo>, val context: Context):
     RecyclerView.Adapter<AdaptadorSubgrupos.GroupViewHolder>() {
@@ -59,6 +61,9 @@ class AdaptadorSubgrupos (private val listaGrupos: MutableList<Subgrupo>, val co
             when(v!!.id){
                 R.id.framegroup->{
 
+                    SubgrupoObject.setGroup(listaGrupos[pos].id, listaGrupos[pos].name)
+                    val intent = Intent(context, ChatActivity::class.java)
+                    context.startActivity(intent)
                     //GroupObject.setGroup(listaGrupos[pos].id, listaGrupos[pos].name)
                     //TODO("Lanzar el chat del subgrupo")
 

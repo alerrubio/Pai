@@ -92,10 +92,10 @@ class GroupActivity:  AppCompatActivity() {
 
                     val subgrupo: Subgrupo = snap.getValue(Subgrupo::class.java) as Subgrupo
 
-                    subgrupos.add(subgrupo)
-
+                    if(subgrupo.miembros.contains(UserObject.getId())){
+                        subgrupos.add(subgrupo)
+                    }
                 }
-
                 if (subgrupos.size > 0) {
                     gruposAdaptador?.notifyDataSetChanged()
                 }

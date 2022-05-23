@@ -13,6 +13,7 @@ import com.google.firebase.database.*
 import com.pai.pai.adapters.AdaptadorChat
 import com.pai.pai.models.GroupObject
 import com.pai.pai.models.Message
+import com.pai.pai.models.SubgrupoObject
 import com.pai.pai.models.UserObject
 
 class ChatActivity : AppCompatActivity() {
@@ -22,8 +23,8 @@ class ChatActivity : AppCompatActivity() {
 
     private val database = FirebaseDatabase.getInstance()
 
-    private val rama = "groups/id"+GroupObject.getId().toString()+"/mensajes"
-    private val chatRef = database.getReference(rama) //crea la rama o tabla de chats.
+    private var rama = "groups/id"+GroupObject.getId().toString()
+    private var chatRef = database.getReference(rama) //crea la rama o tabla de chats.
     private lateinit var nombreUsuario: String
 
 
@@ -34,6 +35,13 @@ class ChatActivity : AppCompatActivity() {
 
         nombreUsuario = intent.getStringExtra("username") ?: "sin nombre"
 
+        if(SubgrupoObject.getName()!=""){
+            rama = rama + "/Subgrupos/"+SubgrupoObject.getId()+ "/mensajes"
+        }
+        else{
+            rama = rama + "/mensajes"
+        }
+        chatRef = database.getReference(rama)
 
 
         val rvMensajes = findViewById<RecyclerView>(R.id.rv_Messages)
@@ -44,7 +52,7 @@ class ChatActivity : AppCompatActivity() {
         val btnUbicacion = findViewById<ImageButton>(R.id.btn_ubicacion)
 
         rvMensajes.adapter = chatAdaptador
-        namechat.text = GroupObject.getName()
+        namechat.text = GroupObject.getName() +" - "+ SubgrupoObject.getName()
 
         btnEnviar.setOnClickListener {
             val mensaje = txtMensaje.text.toString()
@@ -62,6 +70,7 @@ class ChatActivity : AppCompatActivity() {
         }
 
         btnReturn.setOnClickListener {
+            SubgrupoObject.setGroup("", "")
             finish()
         }
 
