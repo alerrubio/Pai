@@ -17,8 +17,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.pai.pai.adapters.AdaptadorContactos
 import com.pai.pai.adapters.AdaptadorMiembros
-import com.pai.pai.models.User
-import com.pai.pai.models.UserObject
+import com.pai.pai.models.*
 
 class CreateSubgroupActivity: AppCompatActivity() {
 
@@ -28,13 +27,19 @@ class CreateSubgroupActivity: AppCompatActivity() {
     private val usuarios = mutableListOf<User>()
     private var miembrosAdaptador: AdaptadorMiembros? = null
     private lateinit var rv_contactos: RecyclerView
+    private lateinit var nameSub: EditText
+
+    private lateinit var miembros: MutableList<String>
+
+    private var rama = "groups/id"+ GroupObject.getId().toString()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_createsubgroups)
 
-        val nameSub = findViewById<EditText>(R.id.et_subgroup_name)
+        nameSub = findViewById(R.id.et_subgroup_name)
         val btnCreate = findViewById<Button>(R.id.btn_subgroup_crear)
         //val arrayMiembros =
 
@@ -54,6 +59,10 @@ class CreateSubgroupActivity: AppCompatActivity() {
 
 
         getContacts()
+
+        btnCreate.setOnClickListener {
+            crearSub()
+        }
 
 
     }
@@ -89,7 +98,32 @@ class CreateSubgroupActivity: AppCompatActivity() {
         })
     }
 
-/*chatref = groups/id1/Nombredelsubgrupo
+    private fun crearSub(){
+
+        miembros = Miembros.getMembers()
+        val name = nameSub.text.toString()
+
+        if(name!=""){
+            sendToFireBase(Subgrupo("", name, miembros))
+        }
+        else{
+            Toast.makeText(this@CreateSubgroupActivity, "Escribir un nombre para el subgrupo", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun sendToFireBase(subgrupo: Subgrupo){
+        rama = "$rama/${subgrupo.name}"
+        val subgroupRef = database.getReference(rama)
+
+        val firebaseMsg = subgroupRef.push()
+        subgrupo.id = firebaseMsg.key ?: ""
+
+        firebaseMsg.setValue(subgrupo)
+
+
+    }
+
+    /*chatref = groups/id1/Nombredelsubgrupo
     private fun createSubgroup(miembros: array){
         val firebaseMsg = chatRef.push()
 

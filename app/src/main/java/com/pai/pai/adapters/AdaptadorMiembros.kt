@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.pai.pai.ChatIndividualActivity
+import com.pai.pai.CreateSubgroupActivity
+import com.pai.pai.DrawerActivity
 import com.pai.pai.R
 import com.pai.pai.models.Miembros
 import com.pai.pai.models.User
@@ -66,16 +68,21 @@ class AdaptadorMiembros(private val listaUsuarios: MutableList<User>, val contex
                         if(members.contains(id)){
                             this.itemView.findViewById<FrameLayout>(R.id.Frame).backgroundTintList = ColorStateList.valueOf(Color.parseColor("#d0b616"))
                             members.remove(id)
+                            Miembros.deleteMember(id)
                         }
                         else{
                             members.add(id)
+                            Miembros.setMember(id)
                             this.itemView.findViewById<FrameLayout>(R.id.Frame).backgroundTintList = ColorStateList.valueOf(Color.parseColor("#a3dabc"))
                         }
                     }
                     else{
                         members.add(id)
+                        Miembros.setMember(id)
                         this.itemView.findViewById<FrameLayout>(R.id.Frame).backgroundTintList = ColorStateList.valueOf(Color.parseColor("#a3dabc"))
                     }
+                    val intentChat = Intent(context, CreateSubgroupActivity::class.java)
+                    intentChat.putExtra("miembros", members.toTypedArray())
                 }
             }
         }

@@ -1,8 +1,8 @@
 package com.pai.pai.models
 
 class Subgrupo(
-    var id: Long = 0,
+    var id: String = "",
     var name: String = "",
-    var miembros: Array<String>
+    var miembros: MutableList<String>
 ){
 }
