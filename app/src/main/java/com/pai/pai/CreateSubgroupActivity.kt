@@ -31,7 +31,7 @@ class CreateSubgroupActivity: AppCompatActivity() {
 
     private lateinit var miembros: MutableList<String>
 
-    private var rama = "groups/id"+ GroupObject.getId().toString()
+    private var rama = "groups/id"+ GroupObject.getId().toString()+"/Subgrupos"
 
 
 
@@ -102,6 +102,7 @@ class CreateSubgroupActivity: AppCompatActivity() {
 
         miembros = Miembros.getMembers()
         val name = nameSub.text.toString()
+        miembros.add(UserObject.getId())
 
         if(name!=""){
             sendToFireBase(Subgrupo("", name, miembros))
@@ -112,28 +113,15 @@ class CreateSubgroupActivity: AppCompatActivity() {
     }
 
     private fun sendToFireBase(subgrupo: Subgrupo){
-        rama = "$rama/${subgrupo.name}"
         val subgroupRef = database.getReference(rama)
 
         val firebaseMsg = subgroupRef.push()
         subgrupo.id = firebaseMsg.key ?: ""
 
         firebaseMsg.setValue(subgrupo)
-
+        finish()
 
     }
-
-    /*chatref = groups/id1/Nombredelsubgrupo
-    private fun createSubgroup(miembros: array){
-        val firebaseMsg = chatRef.push()
-
-        foreach {
-            subgrupo = (miembro[i])
-            setValue subgrupo
-        }
-
-        firebaseMsg.setValue(message)
-    }*/
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         finish()

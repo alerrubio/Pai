@@ -35,6 +35,7 @@ class ChatActivity : AppCompatActivity() {
         nombreUsuario = intent.getStringExtra("username") ?: "sin nombre"
 
 
+
         val rvMensajes = findViewById<RecyclerView>(R.id.rv_Messages)
         val btnEnviar = findViewById<Button>(R.id.btnEnviar_chat)
         val txtMensaje = findViewById<EditText>(R.id.txtMensaje_chat)
