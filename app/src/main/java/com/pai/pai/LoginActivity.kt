@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
+import com.pai.pai.models.UserObject
 
 
 class LoginActivity : AppCompatActivity() {
@@ -74,6 +75,7 @@ class LoginActivity : AppCompatActivity() {
 
                 val intentChat = Intent(this, DrawerActivity::class.java)
                 intentChat.putExtra("username", auth.currentUser?.displayName)
+                UserObject.setUser(auth.currentUser!!.uid, auth.currentUser?.displayName)
 
                 startActivity(intentChat)
             }

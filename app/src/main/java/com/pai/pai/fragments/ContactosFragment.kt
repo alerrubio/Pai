@@ -78,7 +78,6 @@ class ContactosFragment : Fragment() {
 
                 if (usuarios.size > 0) {
                     contactosAdaptador?.notifyDataSetChanged()
-                    rv_contactos.smoothScrollToPosition(usuarios.size - 1)
                 }
             }
 

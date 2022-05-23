@@ -66,6 +66,9 @@
         <activity
             android:name=".ChatIndividualActivity"
             android:exported="true" />
+        <activity
+            android:name=".SubgroupsActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

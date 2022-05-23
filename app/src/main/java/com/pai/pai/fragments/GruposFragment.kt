@@ -71,6 +71,7 @@ class GruposFragment: Fragment() {
 
                     val grupo: Grupos = snap.getValue(Grupos::class.java) as Grupos
                     //Solo lo agrego para verificar
+
                     grupos.add(grupo)
 
                     //TODO("Verificar que el usuario esté en el grupo")?
@@ -81,7 +82,6 @@ class GruposFragment: Fragment() {
 
                 if (grupos.size > 0) {
                     gruposAdaptador?.notifyDataSetChanged()
-                    rv_grupos.smoothScrollToPosition(grupos.size - 1)
                 }
             }
 

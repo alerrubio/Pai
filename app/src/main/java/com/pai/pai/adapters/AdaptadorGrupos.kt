@@ -9,6 +9,8 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.pai.pai.ChatIndividualActivity
 import com.pai.pai.R
+import com.pai.pai.SubgroupsActivity
+import com.pai.pai.models.GroupObject
 import com.pai.pai.models.Grupos
 
 class AdaptadorGrupos (private val listaGrupos: MutableList<Grupos>, val context: Context):
@@ -18,17 +20,20 @@ class AdaptadorGrupos (private val listaGrupos: MutableList<Grupos>, val context
 
 
     inner class GroupViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener{
+
+        var pos = 0;
+
         fun asignarInformacion(grupo: Grupos){
 
             val tvGroupName = itemView.findViewById<TextView>(R.id.tv_nombre_grupo)
             val ivGroup = itemView.findViewById<ImageView>(R.id.iv_grupo)
             val contenedorGrupo = itemView.findViewById<LinearLayout>(R.id.contenedor_grupos)
-            tvGroupId = itemView.findViewById<TextView>(R.id.tv_groupid)
+            tvGroupId = itemView.findViewById(R.id.tv_groupid)
 
 
 
             tvGroupName.text = grupo.group_name
-            tvGroupId.text = grupo.id
+            tvGroupId.text = grupo.id.toString()
             //TODO agregar imagen del usuario ivUser = blalvlavla
 
 
@@ -50,8 +55,13 @@ class AdaptadorGrupos (private val listaGrupos: MutableList<Grupos>, val context
 
             when(v!!.id){
                 R.id.framegroup->{
+
+                    GroupObject.setGroup(listaGrupos[pos].id, listaGrupos[pos].group_name)
                     //TODO("Lanzar el activity de las opciones del grupo")
-                    Toast.makeText(context, this.itemView.findViewById<TextView>(R.id.tv_nombre_grupo).text, Toast.LENGTH_SHORT).show()
+                    val intent = Intent(context, SubgroupsActivity::class.java)
+                    context.startActivity(intent)
+
+                    //Toast.makeText(context, this.itemView.findViewById<TextView>(R.id.tv_nombre_grupo).text, Toast.LENGTH_SHORT).show()
                     //Lanzamos el intent para abrir el detall
                     /*val  activityIntent =  Intent(context, ChatIndividualActivity::class.java)
                     activityIntent.putExtra("idUsuario", this.itemView.findViewById<TextView>(R.id.tv_userid).text)
@@ -69,6 +79,7 @@ class AdaptadorGrupos (private val listaGrupos: MutableList<Grupos>, val context
     }
 
     override fun onBindViewHolder(holder: AdaptadorGrupos.GroupViewHolder, position: Int) {
+        holder.pos = position
         holder.asignarInformacion(listaGrupos[position])
 
     }
