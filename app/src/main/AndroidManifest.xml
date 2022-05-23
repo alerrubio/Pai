@@ -67,7 +67,10 @@
             android:name=".ChatIndividualActivity"
             android:exported="true" />
         <activity
-            android:name=".SubgroupsActivity"
+            android:name=".GroupActivity"
+            android:exported="true" />
+        <activity
+            android:name=".CreateSubgroupActivity"
             android:exported="true" />
     </application>
 

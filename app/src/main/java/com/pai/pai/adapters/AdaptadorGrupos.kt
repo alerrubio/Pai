@@ -7,9 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
-import com.pai.pai.ChatIndividualActivity
 import com.pai.pai.R
-import com.pai.pai.SubgroupsActivity
+import com.pai.pai.GroupActivity
 import com.pai.pai.models.GroupObject
 import com.pai.pai.models.Grupos
 
@@ -58,7 +57,7 @@ class AdaptadorGrupos (private val listaGrupos: MutableList<Grupos>, val context
 
                     GroupObject.setGroup(listaGrupos[pos].id, listaGrupos[pos].group_name)
                     //TODO("Lanzar el activity de las opciones del grupo")
-                    val intent = Intent(context, SubgroupsActivity::class.java)
+                    val intent = Intent(context, GroupActivity::class.java)
                     context.startActivity(intent)
 
                     //Toast.makeText(context, this.itemView.findViewById<TextView>(R.id.tv_nombre_grupo).text, Toast.LENGTH_SHORT).show()
