@@ -27,7 +27,7 @@ class AdaptadorChat(private val listaMensajes: MutableList<Message>):
             val tvFecha = itemView.findViewById<TextView>(R.id.tv_Hour)
             val contenedorMensaje = itemView.findViewById<LinearLayout>(R.id.contenedorMensaje)
 
-            tvUser.text = mensaje.from
+            tvUser.text = mensaje.usuario
             tvMensaje.text = mensaje.contenido
 
             val dateFormater = SimpleDateFormat("dd/MM/yyyy - HH:mm:ss", Locale.getDefault())

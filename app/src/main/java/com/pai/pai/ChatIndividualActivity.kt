@@ -13,6 +13,7 @@ import com.google.firebase.database.*
 import com.pai.pai.adapters.AdaptadorChat
 import com.pai.pai.models.Chat
 import com.pai.pai.models.Message
+import com.pai.pai.models.UserObject
 import javax.security.auth.callback.Callback
 import kotlin.system.exitProcess
 
@@ -72,7 +73,7 @@ class ChatIndividualActivity : AppCompatActivity() {
             val mensaje = txtMensaje.text.toString()
             if(mensaje.isNotEmpty()){
                 txtMensaje.text.clear()
-                sendMessage(Message("", mensaje, user!!.uid, ServerValue.TIMESTAMP))
+                sendMessage(Message("", mensaje, user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString()))
             }
         }
 

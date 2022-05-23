@@ -43,7 +43,7 @@ class ChatActivity : AppCompatActivity() {
             val mensaje = txtMensaje.text.toString()
             if(mensaje.isNotEmpty()){
                 txtMensaje.text.clear()
-                sendMessage(Message("", mensaje, UserObject.getId(), ServerValue.TIMESTAMP))
+                sendMessage(Message("", mensaje, UserObject.getId(), ServerValue.TIMESTAMP, UserObject.getName().toString()))
             }
         }
 
@@ -79,10 +79,10 @@ class ChatActivity : AppCompatActivity() {
 
                     if (mensaje.from == UserObject.getId()){
                         mensaje.esMio = true
-                        mensaje.from = UserObject.getName().toString()
+                        //mensaje.from = UserObject.getName().toString()
                     }
                     else {
-                        mensaje.from = nombreUsuario
+                        //mensaje.from = nombreUsuario
                         mensaje.esMio = false
                     }
 
