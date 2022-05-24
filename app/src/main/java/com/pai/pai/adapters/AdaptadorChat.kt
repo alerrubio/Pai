@@ -1,7 +1,11 @@
 package com.pai.pai.adapters
 
 import android.content.res.ColorStateList
+import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.net.Uri
+import android.os.Environment
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -10,20 +14,24 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.pai.pai.R
 import com.pai.pai.models.Message
+import java.io.ByteArrayOutputStream
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class AdaptadorChat(private val listaMensajes: MutableList<Message>):
     RecyclerView.Adapter<AdaptadorChat.ChatViewHolder>() {
 
     class ChatViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         fun asignarInformacion(mensaje: Message){
-
+            var StorageRef = FirebaseStorage.getInstance().reference
             val tvUser = itemView.findViewById<TextView>(R.id.tv_User)
             val tvMensaje = itemView.findViewById<TextView>(R.id.tv_Message)
             val tvFecha = itemView.findViewById<TextView>(R.id.tv_Hour)
@@ -64,6 +72,20 @@ class AdaptadorChat(private val listaMensajes: MutableList<Message>):
             }
 
             if (mensaje.imageFile){
+                val pathDownloads = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path + "/"
+                val pathReference: StorageReference = StorageRef.child("images/" + mensaje.contenido.toUri().lastPathSegment)
+                var localFile = File.createTempFile("tempImg", "jpg")
+                var file: Uri = pathDownloads.toUri()
+                val stream = ByteArrayOutputStream()
+
+                pathReference.getFile(localFile).addOnSuccessListener {
+                    val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
+                    ivImage.setImageBitmap(bitmap)
+                }
+                .addOnFailureListener{
+                    Log.e("ERROR ", it.toString())
+                }
+
                 ivImage.visibility = ImageView.VISIBLE
                 tvMensaje.text = "Se envió una imagen:"
                 ivImage.setImageURI(mensaje.contenido.toUri())

@@ -6,12 +6,12 @@
         <type value="RUNNING_DEVICE_TARGET" />
         <deviceKey>
           <Key>
-            <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\user\.android\avd\Emulador_POI.avd" />
+            <type value="SERIAL_NUMBER" />
+            <value value="SDJ7N18C18002096" />
           </Key>
         </deviceKey>
       </Target>
     </runningDeviceTargetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2022-05-24T20:07:19.380323200Z" />
+    <timeTargetWasSelectedWithDropDown value="2022-05-24T22:40:13.876140400Z" />
   </component>
 </project>
