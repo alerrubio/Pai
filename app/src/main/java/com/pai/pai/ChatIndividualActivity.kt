@@ -94,17 +94,40 @@ class ChatIndividualActivity : AppCompatActivity() {
             }
             if (fileCamera != null) {
                 subirImagen(fileCamera!!)
-                sendMessage(Message("", "Se envió una imagen: " + filePath, user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString()))
+                var uri = Uri.fromFile(fileCamera)
+                sendMessage(Message("", "Se envió una imagen: " + uri.lastPathSegment, user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString()))
                 fileCamera = null
                 filePath = ""
                 btnCamera.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
+                /*subirImagen(fileCamera!!)
+                var urlString = "gs://paiapp-ce0a6.appspot.com/images/"
+                var uri = Uri.fromFile(fileCamera)
+                urlString += uri.lastPathSegment
+                val pathReference: StorageReference = StorageRef.child("images/"+ uri.lastPathSegment)
+                sendMessage(Message("", "Se envió una imagen: " + pathReference.downloadUrl.toString(), user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString()))
+
+                fileCamera = null
+                filePath = ""
+                btnCamera.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))*/
             }
             if (fileGallery != null) {
                 subirImagen(fileGallery!!)
-                sendMessage(Message("", "Se envió una imagen: " + filePath, user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString()))
+                var uri = Uri.fromFile(fileGallery)
+                sendMessage(Message("", "Se envió una imagen: " + uri.lastPathSegment, user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString()))
                 fileGallery = null
                 filePath = ""
                 btnFiles.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
+                /*subirImagen(fileGallery!!)
+                var urlString = "gs://paiapp-ce0a6.appspot.com/images/"
+                var uri = Uri.fromFile(fileGallery)
+                urlString += uri.lastPathSegment
+                val pathReference: StorageReference = StorageRef.child(urlString + uri.lastPathSegment)
+                pathReference.downloadUrl.addOnSuccessListener{
+                    sendMessage(Message("", "Se envió una imagen: " + it.toString(), user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString()))
+                }
+                fileGallery = null
+                filePath = ""
+                btnFiles.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))*/
             }
         }
 

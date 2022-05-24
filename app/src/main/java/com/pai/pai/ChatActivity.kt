@@ -3,32 +3,50 @@ package com.pai.pai
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.fcfm.poi.encriptacin.CifradoTools
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.github.drjacky.imagepicker.ImagePicker
+import com.github.drjacky.imagepicker.constant.ImageProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.pai.pai.adapters.AdaptadorChat
 import com.pai.pai.models.GroupObject
 import com.pai.pai.models.Message
 import com.pai.pai.models.SubgrupoObject
 import com.pai.pai.models.UserObject
+import java.io.File
+
 
 class ChatActivity : AppCompatActivity() {
 
     private val listMessages = mutableListOf<Message>()
     private val chatAdaptador = AdaptadorChat(listMessages)
 
+    private var StorageRef = FirebaseStorage.getInstance().reference
     private val database = FirebaseDatabase.getInstance()
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val user = auth.currentUser
 
     private var rama = "groups/id"+GroupObject.getId().toString()
     private var chatRef = database.getReference(rama) //crea la rama o tabla de chats.
     private lateinit var nombreUsuario: String
 
+    private var pickImage = 100
+    private var loadImage = 150
+    private var getLocation = 200
 
+    var fileGallery: File? = null
+    var fileCamera: File? = null
+    var filePath: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,15 +69,60 @@ class ChatActivity : AppCompatActivity() {
         val btnReturn = findViewById<ImageView>(R.id.btnRegresar_chatInd)
         val namechat = findViewById<TextView>(R.id.tv_UserChat)
         val btnUbicacion = findViewById<ImageButton>(R.id.btn_ubicacion)
+        val btnFiles = findViewById<ImageButton>(R.id.btn_addfile)
+        val btnCamera = findViewById<ImageButton>(R.id.btn_add_picture)
 
         rvMensajes.adapter = chatAdaptador
         namechat.text = GroupObject.getName() +" - "+ SubgrupoObject.getName()
 
+        btnCamera.setOnClickListener{
+            selectCameraImage(ImageProvider.CAMERA)
+        }
+        btnFiles.setOnClickListener{
+            selectGalleryImage(ImageProvider.GALLERY)
+        }
         btnEnviar.setOnClickListener {
             val mensaje = txtMensaje.text.toString()
             if(mensaje.isNotEmpty()){
                 txtMensaje.text.clear()
-                sendMessage(Message("", mensaje, UserObject.getId(), ServerValue.TIMESTAMP, UserObject.getName().toString()))
+                sendMessage(Message("", mensaje, user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString()))
+            }
+            if (fileCamera != null) {
+                subirImagen(fileCamera!!)
+                var uri = Uri.fromFile(fileCamera)
+                sendMessage(Message("", "Se envió una imagen: " + uri.lastPathSegment, user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString()))
+                fileCamera = null
+                filePath = ""
+                btnCamera.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
+                /*subirImagen(fileCamera!!)
+                var urlString = "gs://paiapp-ce0a6.appspot.com/images/"
+                var uri = Uri.fromFile(fileCamera)
+                urlString += uri.lastPathSegment
+                val pathReference: StorageReference = StorageRef.child("images/"+ uri.lastPathSegment)
+                sendMessage(Message("", "Se envió una imagen: " + pathReference.downloadUrl.toString(), user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString()))
+
+                fileCamera = null
+                filePath = ""
+                btnCamera.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))*/
+            }
+            if (fileGallery != null) {
+                subirImagen(fileGallery!!)
+                var uri = Uri.fromFile(fileGallery)
+                sendMessage(Message("", "Se envió una imagen: " + uri.lastPathSegment, user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString()))
+                fileGallery = null
+                filePath = ""
+                btnFiles.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
+                /*subirImagen(fileGallery!!)
+                var urlString = "gs://paiapp-ce0a6.appspot.com/images/"
+                var uri = Uri.fromFile(fileGallery)
+                urlString += uri.lastPathSegment
+                val pathReference: StorageReference = StorageRef.child(urlString + uri.lastPathSegment)
+                pathReference.downloadUrl.addOnSuccessListener{
+                    sendMessage(Message("", "Se envió una imagen: " + it.toString(), user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString()))
+                }
+                fileGallery = null
+                filePath = ""
+                btnFiles.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))*/
             }
         }
 
@@ -75,6 +138,24 @@ class ChatActivity : AppCompatActivity() {
             finish()
         }
 
+    }
+
+    private fun selectGalleryImage(provider: ImageProvider){
+        val intentGaleria = ImagePicker.with(this)
+            .galleryOnly() //User can only select image from Gallery
+            .provider(provider)
+            .createIntent() //Default Request Code is ImagePicker.REQUEST_CODE
+
+        startActivityForResult(intentGaleria, pickImage)
+    }
+    private fun selectCameraImage(provider: ImageProvider){
+        val intentGaleria = ImagePicker.with(this)
+            //User can only select image from Gallery
+            .cameraOnly()
+            .provider(provider)
+            .createIntent()
+
+        startActivityForResult(intentGaleria, loadImage)
     }
 
     private fun sendMessage(message: Message){
@@ -181,13 +262,64 @@ class ChatActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK && requestCode == getLocation) {
 
             findViewById<TextView>(R.id.txtMensaje_chat).text = data?.getStringExtra("ubicacion") ?: ""
-        } else {
 
-            findViewById<TextView>(R.id.txtMensaje_chat).text = "Error o no seleccionaste una direccion"
+        } else if (resultCode == RESULT_OK && requestCode == pickImage){
+
+            val fileUri = data?.data
+            fileGallery = ImagePicker.getFile(data)!!
+            filePath = ImagePicker.getFilePath(data)!!
+            val btnFiles = findViewById<ImageButton>(R.id.btn_addfile)
+
+            btnFiles.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#d0b616"))
+            //subirImagen(fileGallery!!)
+
         }
+        else if (resultCode == RESULT_OK && requestCode == loadImage){
+
+            val fileUri = data?.data
+            fileCamera = ImagePicker.getFile(data)!!
+            filePath = ImagePicker.getFilePath(data)!!
+            val btnCamera = findViewById<ImageButton>(R.id.btn_add_picture)
+
+            btnCamera.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#d0b616"))
+            //subirImagen(fileCamera!!)
+
+        }
+        else if (resultCode == RESULT_CANCELED && requestCode == getLocation){
+
+            Toast.makeText(this, "No seleccionaste una dirección", Toast.LENGTH_SHORT).show()
+
+        }else if (resultCode == RESULT_CANCELED && (requestCode == loadImage || requestCode == pickImage)){
+
+            Toast.makeText(this, "No se pudo guardar la imagen", Toast.LENGTH_SHORT).show()
+
+        }
+    }
+
+    fun subirImagen(file: File) {
+        var uriFile = Uri.fromFile(file)
+
+        val imageRef = StorageRef.child("images/${uriFile.lastPathSegment}")
+        imageRef.putFile(uriFile)
+            .addOnSuccessListener { snap ->
+
+                imageRef.downloadUrl.addOnSuccessListener {
+
+                    // Guardo en shared la url de la imagen
+                    getSharedPreferences("MiArchiv", MODE_PRIVATE)
+                        .edit().putString("URL_FOTO", it.toString())
+                        .apply()
+                }
+
+                Toast.makeText(this, "Imagen guardada", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+
+                Toast.makeText(this, "No se pudo subir tu imagen", Toast.LENGTH_SHORT).show()
+            }
     }
 
 }
