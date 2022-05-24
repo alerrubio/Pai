@@ -21,12 +21,12 @@ class CreateTareasActivity: AppCompatActivity(), AdapterView.OnItemSelectedListe
     var spinner: Spinner? = null
     var carrera = ""
 
-    private var rama = "groups/id"+ GroupObject.getId().toString()+"/Tareas"
+    private var rama = "tareas"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_createsubgroups)
+        setContentView(R.layout.activity_createtareas)
 
         nameTarea = findViewById(R.id.et_tareas_name)
         descripcionTarea = findViewById(R.id.et_tareas_descripcion)
@@ -79,24 +79,24 @@ class CreateTareasActivity: AppCompatActivity(), AdapterView.OnItemSelectedListe
             }
         }
 
-        if(name!=""){
-            //sendToFireBase(Tarea("", name, ))
+        if(name!="" && descripcion!=""){
+            sendToFireBase(Tarea("", name, descripcion, carrera))
         }
         else{
-            Toast.makeText(this@CreateTareasActivity, "Escribir un nombre para el subgrupo", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@CreateTareasActivity, "Llenar todos los campos", Toast.LENGTH_SHORT).show()
         }
     }
 
-    /*private fun sendToFireBase(tarea: Tareas){
+    private fun sendToFireBase(tarea: Tarea){
         val subgroupRef = database.getReference(rama)
 
         val firebaseMsg = subgroupRef.push()
-        subgrupo.id = firebaseMsg.key ?: ""
+        tarea.id = firebaseMsg.key ?: ""
 
-        firebaseMsg.setValue(subgrupo)
+        firebaseMsg.setValue(tarea)
         finish()
 
-    }*/
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         finish()

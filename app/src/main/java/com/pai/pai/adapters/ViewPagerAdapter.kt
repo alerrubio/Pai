@@ -4,11 +4,13 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.pai.pai.CreateTareasActivity
 import com.pai.pai.HomeFragment
 import com.pai.pai.ProfileFragment
 import com.pai.pai.RegisterFragment
 import com.pai.pai.fragments.ContactosFragment
 import com.pai.pai.fragments.GruposFragment
+import com.pai.pai.fragments.TareasFragment
 
 //Extiende de FragmentStateAdapter
 
@@ -42,7 +44,7 @@ class ViewPagerAdapater(fragment: FragmentActivity) : FragmentStateAdapter(fragm
                 }
             }
             2 -> {
-                fragment = RegisterFragment()
+                fragment = TareasFragment()
                 fragment.arguments = Bundle().apply {
                     // Our object is just an integer :-P
                     putInt(ARG_OBJECT, position + 1)
