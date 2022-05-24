@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,7 +10,6 @@
 
     <LinearLayout
 
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/contenedorMensaje"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,12 +31,21 @@
 
         <TextView
             android:id="@+id/tv_Message"
-            android:autoLink="web"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:autoLink="web"
             android:text="Ejemplo de mensaje"
             android:textColor="@color/white" />
+
+        <ImageView
+            android:id="@+id/iv_imageFile"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:maxWidth="50dp"
+            android:maxHeight="150dp"
+            android:visibility="gone"
+            tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/tv_Hour"

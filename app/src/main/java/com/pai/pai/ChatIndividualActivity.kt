@@ -95,7 +95,9 @@ class ChatIndividualActivity : AppCompatActivity() {
             if (fileCamera != null) {
                 subirImagen(fileCamera!!)
                 var uri = Uri.fromFile(fileCamera)
-                sendMessage(Message("", "Se envió una imagen: " + uri.lastPathSegment, user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString()))
+                var msg = Message("", uri.toString(), user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString())
+                msg.imageFile = true
+                sendMessage(msg)
                 fileCamera = null
                 filePath = ""
                 btnCamera.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
@@ -113,7 +115,9 @@ class ChatIndividualActivity : AppCompatActivity() {
             if (fileGallery != null) {
                 subirImagen(fileGallery!!)
                 var uri = Uri.fromFile(fileGallery)
-                sendMessage(Message("", "Se envió una imagen: " + uri.lastPathSegment, user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString()))
+                var msg = Message("", uri.toString(), user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString())
+                msg.imageFile = true
+                sendMessage(msg)
                 fileGallery = null
                 filePath = ""
                 btnFiles.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))

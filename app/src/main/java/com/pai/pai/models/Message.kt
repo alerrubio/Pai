@@ -12,5 +12,6 @@ class Message(
     @Exclude
     var esMio: Boolean = false
     var encriptado: Boolean = false
+    var imageFile: Boolean = false
 
 }

@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.pai.pai.R
 import com.pai.pai.models.Message
@@ -25,6 +27,7 @@ class AdaptadorChat(private val listaMensajes: MutableList<Message>):
             val tvUser = itemView.findViewById<TextView>(R.id.tv_User)
             val tvMensaje = itemView.findViewById<TextView>(R.id.tv_Message)
             val tvFecha = itemView.findViewById<TextView>(R.id.tv_Hour)
+            val ivImage = itemView.findViewById<ImageView>(R.id.iv_imageFile)
             val contenedorMensaje = itemView.findViewById<LinearLayout>(R.id.contenedorMensaje)
 
             tvUser.text = mensaje.usuario
@@ -58,6 +61,12 @@ class AdaptadorChat(private val listaMensajes: MutableList<Message>):
                 //contenedorMensaje.setBackgroundColor(Color.parseColor("#3E3C3C"))
                 contenedorMensaje.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#3E3C3C"))
                 contenedorMensaje.layoutParams = newParams
+            }
+
+            if (mensaje.imageFile){
+                ivImage.visibility = ImageView.VISIBLE
+                tvMensaje.text = "Se envió una imagen:"
+                ivImage.setImageURI(mensaje.contenido.toUri())
             }
         }
     }
