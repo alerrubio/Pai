@@ -89,6 +89,8 @@ class AdaptadorChat(private val listaMensajes: MutableList<Message>):
                 ivImage.visibility = ImageView.VISIBLE
                 tvMensaje.text = "Se envió una imagen:"
                 ivImage.setImageURI(mensaje.contenido.toUri())
+
+                
             }
         }
     }
