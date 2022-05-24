@@ -7,6 +7,7 @@ class User (
     var email: String = "",
     var first_name: String = "",
     var last_name: String = "",
-    var m_last_name: String = ""
+    var m_last_name: String = "",
+    var carrera: String = ""
         ){
 }

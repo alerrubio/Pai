@@ -14,13 +14,23 @@ import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import com.pai.pai.models.GroupObject
+import com.pai.pai.models.Subgrupo
+import com.pai.pai.models.User
 import com.pai.pai.models.UserObject
 
 
 class LoginActivity : AppCompatActivity() {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val database = FirebaseDatabase.getInstance()
+    private var rama = "users"
+    private val subRef = database.getReference(rama)
 
     //TODO: Checar qué rollo con el FireBaseAuth
 
@@ -75,9 +85,35 @@ class LoginActivity : AppCompatActivity() {
 
                 val intentChat = Intent(this, DrawerActivity::class.java)
                 intentChat.putExtra("username", auth.currentUser?.displayName)
-                UserObject.setUser(auth.currentUser!!.uid, auth.currentUser?.displayName, email, pass)
 
-                startActivity(intentChat)
+                subRef.addValueEventListener(object: ValueEventListener {
+
+                    override fun onDataChange(snapshot: DataSnapshot) {
+
+                        for (snap in snapshot.children) {
+
+                            val usuariologged: User = snap.getValue(User::class.java) as User
+
+                            if(usuariologged.id == auth.currentUser!!.uid){
+                                UserObject.setUser(auth.currentUser!!.uid, auth.currentUser?.displayName, usuariologged.email, usuariologged.password, usuariologged.carrera)
+                                startActivity(intentChat)
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+
+                        Toast.makeText(this@LoginActivity, "Error al leer los contactos", Toast.LENGTH_SHORT).show()
+                    }
+                })
+
+
+
+
+
+               // UserObject.setUser(auth.currentUser!!.uid, auth.currentUser?.displayName, email, pass)
+
+                //startActivity(intentChat)
             }
         } else {
 
