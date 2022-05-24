@@ -3,17 +3,24 @@ package com.pai.pai
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.github.drjacky.imagepicker.ImagePicker
+import com.github.drjacky.imagepicker.constant.ImageProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
 import com.pai.pai.adapters.AdaptadorChat
 import com.pai.pai.models.Chat
 import com.pai.pai.models.Message
 import com.pai.pai.models.UserObject
+import java.io.File
 import javax.security.auth.callback.Callback
 import kotlin.system.exitProcess
 
@@ -24,6 +31,7 @@ class ChatIndividualActivity : AppCompatActivity() {
 
     private var textRef = ""
 
+    private var StorageRef = FirebaseStorage.getInstance().reference
     private val database = FirebaseDatabase.getInstance()
     private lateinit var chatRef: DatabaseReference
     private lateinit var msgRef: DatabaseReference
@@ -35,16 +43,19 @@ class ChatIndividualActivity : AppCompatActivity() {
     private val messageSenderID = user?.uid.toString()
 
     private var messageRecieverID = ""
+    private var pickImage = 100
+    private var loadImage = 150
+    private var getLocation = 200
 
+    var fileGallery: File? = null
+    var fileCamera: File? = null
+    var filePath: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_individual)
 
         idUsuarioDestino = intent.getStringExtra("idUsuario") ?: "sin id"
-
-
-
 
         nombreUsuario = intent.getStringExtra("nombreUsuario") ?: "sin nombre"
 
@@ -56,9 +67,9 @@ class ChatIndividualActivity : AppCompatActivity() {
         val txtMensaje = findViewById<EditText>(R.id.txtMensaje_chat)
         val btnReturn = findViewById<ImageView>(R.id.btnRegresar_chatInd)
         val btnUbicacion = findViewById<ImageButton>(R.id.btn_ubicacion)
+        val btnFiles = findViewById<ImageButton>(R.id.btn_addfile)
+        val btnCamera = findViewById<ImageButton>(R.id.btn_add_picture)
         rvMensajes.adapter = chatAdaptador
-
-
 
         createOrFindChat(Chat("", idUsuarioDestino, user!!.uid), idUsuarioDestino, object: Callbacks{
             override fun assingRef(reference: String) {
@@ -68,12 +79,31 @@ class ChatIndividualActivity : AppCompatActivity() {
                 getMessage()
             }
         })
-
+        btnCamera.setOnClickListener{
+            selectCameraImage(ImageProvider.CAMERA)
+        }
+        btnFiles.setOnClickListener{
+            selectGalleryImage(ImageProvider.GALLERY)
+        }
         btnEnviar.setOnClickListener {
             val mensaje = txtMensaje.text.toString()
             if(mensaje.isNotEmpty()){
                 txtMensaje.text.clear()
                 sendMessage(Message("", mensaje, user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString()))
+            }
+            if (fileCamera != null) {
+                subirImagen(fileCamera!!)
+                sendMessage(Message("", "Se envió una imagen: " + filePath, user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString()))
+                fileCamera = null
+                filePath = ""
+                btnCamera.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
+            }
+            if (fileGallery != null) {
+                subirImagen(fileGallery!!)
+                sendMessage(Message("", "Se envió una imagen: " + filePath, user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString()))
+                fileGallery = null
+                filePath = ""
+                btnFiles.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
             }
         }
 
@@ -86,6 +116,23 @@ class ChatIndividualActivity : AppCompatActivity() {
         }
     }
 
+    private fun selectGalleryImage(provider: ImageProvider){
+        val intentGaleria = ImagePicker.with(this)
+            .galleryOnly() //User can only select image from Gallery
+            .provider(provider)
+            .createIntent() //Default Request Code is ImagePicker.REQUEST_CODE
+
+        startActivityForResult(intentGaleria, pickImage)
+    }
+    private fun selectCameraImage(provider: ImageProvider){
+        val intentGaleria = ImagePicker.with(this)
+             //User can only select image from Gallery
+            .cameraOnly()
+            .provider(provider)
+            .createIntent()
+
+        startActivityForResult(intentGaleria, loadImage)
+    }
     private fun createOrFindChat(chat: Chat, idUsuarioDestino: String, callback: Callbacks){
 
         chatRef = database.getReference("chats/chatsIndividuales") //crea la rama o tabla de chats.
@@ -222,23 +269,74 @@ class ChatIndividualActivity : AppCompatActivity() {
 
     private fun abrirMapa() {
 
-        startActivityForResult(Intent(this, MapsActivity::class.java), 1)
+        startActivityForResult(Intent(this, MapsActivity::class.java), getLocation)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK && requestCode == getLocation) {
 
             findViewById<TextView>(R.id.txtMensaje_chat).text = data?.getStringExtra("ubicacion") ?: ""
-        } else {
 
-            findViewById<TextView>(R.id.txtMensaje_chat).text = "Error o no seleccionaste una direccion"
+        } else if (resultCode == RESULT_OK && requestCode == pickImage){
+
+            val fileUri = data?.data
+            fileGallery = ImagePicker.getFile(data)!!
+            filePath = ImagePicker.getFilePath(data)!!
+            val btnFiles = findViewById<ImageButton>(R.id.btn_addfile)
+
+            btnFiles.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#d0b616"))
+            //subirImagen(fileGallery!!)
+
+        }
+        else if (resultCode == RESULT_OK && requestCode == loadImage){
+
+            val fileUri = data?.data
+            fileCamera = ImagePicker.getFile(data)!!
+            filePath = ImagePicker.getFilePath(data)!!
+            val btnCamera = findViewById<ImageButton>(R.id.btn_add_picture)
+
+            btnCamera.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#d0b616"))
+            //subirImagen(fileCamera!!)
+
+        }
+        else if (resultCode == RESULT_CANCELED && requestCode == getLocation){
+
+            Toast.makeText(this, "No seleccionaste una dirección", Toast.LENGTH_SHORT).show()
+
+        }else if (resultCode == RESULT_CANCELED && (requestCode == loadImage || requestCode == pickImage)){
+
+            Toast.makeText(this, "No se pudo guardar la imagen", Toast.LENGTH_SHORT).show()
+
         }
     }
 
     interface Callbacks{
 
         fun assingRef(reference: String)
+    }
+
+    fun subirImagen(file: File) {
+        var uriFile = Uri.fromFile(file)
+
+        val imageRef = StorageRef.child("images/${uriFile.lastPathSegment}")
+        imageRef.putFile(uriFile)
+            .addOnSuccessListener { snap ->
+
+                imageRef.downloadUrl.addOnSuccessListener {
+
+                    // Guardo en shared la url de la imagen
+                    getSharedPreferences("MiArchiv", MODE_PRIVATE)
+                        .edit().putString("URL_FOTO", it.toString())
+                        .apply()
+                }
+
+                Toast.makeText(this, "Imagen guardada", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+
+                Toast.makeText(this, "No se pudo subir tu imagen", Toast.LENGTH_SHORT).show()
+            }
     }
 }
