@@ -57,12 +57,12 @@ class LoginActivity : AppCompatActivity() {
         }
         else{
             auth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener { respueta ->
-                evaluarInicioSesion(email, respueta)
+                evaluarInicioSesion(email, pwd, respueta)
             }
         }
     }
 
-    private fun evaluarInicioSesion(email: String, respuesta: Task<AuthResult>) {
+    private fun evaluarInicioSesion(email: String, pass: String, respuesta: Task<AuthResult>) {
         if (respuesta.isSuccessful) {
 
             //TODO("Sacar la info del usuario de la BD")
@@ -75,7 +75,7 @@ class LoginActivity : AppCompatActivity() {
 
                 val intentChat = Intent(this, DrawerActivity::class.java)
                 intentChat.putExtra("username", auth.currentUser?.displayName)
-                UserObject.setUser(auth.currentUser!!.uid, auth.currentUser?.displayName)
+                UserObject.setUser(auth.currentUser!!.uid, auth.currentUser?.displayName, email, pass)
 
                 startActivity(intentChat)
             }

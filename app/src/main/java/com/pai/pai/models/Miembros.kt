@@ -11,7 +11,10 @@ object Miembros {
 
     fun setMember(id: String){
         this.members?.add(id)
+    }
 
+    fun logOut(){
+        this.members.clear()
     }
 
     fun deleteMember(id: String){

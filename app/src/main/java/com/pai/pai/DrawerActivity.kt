@@ -1,7 +1,7 @@
 package com.pai.pai
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -14,6 +14,10 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.pai.pai.adapters.ViewPagerAdapater
 import com.pai.pai.fragments.ChatFragment
+import com.pai.pai.models.GroupObject
+import com.pai.pai.models.Miembros
+import com.pai.pai.models.SubgrupoObject
+import com.pai.pai.models.UserObject
 
 class DrawerActivity : AppCompatActivity() {
 
@@ -52,10 +56,18 @@ class DrawerActivity : AppCompatActivity() {
                     cambiarFragmento(ProfileFragment(), "ProfileFragment")
                 }
                 R.id.opc_chats -> {
+                    //TODO Hacer que regrese al tab sin que se empalmen fragments
                     cambiarFragmento(ChatFragment(), "ChatFragment")
                 }
-                R.id.opc_chat_ind -> {
-                    cambiarFragmento(ChatFragment(), "ChatFragment")
+                R.id.opc_logout -> {
+
+                    UserObject.logOut()
+                    GroupObject.logOut()
+                    SubgrupoObject.logOut()
+                    Miembros.logOut()
+
+                    val intent = Intent(this@DrawerActivity, LoginActivity::class.java)
+                    startActivity(intent)
                 }
                 else -> {
                     TODO()

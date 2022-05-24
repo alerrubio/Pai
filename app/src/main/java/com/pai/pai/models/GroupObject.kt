@@ -9,6 +9,11 @@ object GroupObject {
         this.groupName = name
     }
 
+    fun logOut(){
+        this.groupId = 0
+        this.groupName = ""
+    }
+
     fun getId(): Long{
         return this.groupId
     }

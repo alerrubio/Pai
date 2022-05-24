@@ -9,8 +9,9 @@
     <item
         android:id="@+id/opc_chats"
         android:icon="@drawable/ic_chat_bubble_24"
-        android:title="Chats" />
+        android:title="Grupos" />
     <item
-        android:id="@+id/opc_chat_ind"
-        android:title="Chat Individual" />
+        android:id="@+id/opc_logout"
+        android:icon="@drawable/ic_baseline_power_settings_new_24"
+        android:title="Cerrar sesión" />
 </menu>

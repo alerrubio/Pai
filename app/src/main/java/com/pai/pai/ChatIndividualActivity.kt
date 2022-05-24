@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.fcfm.poi.encriptacin.CifradoTools
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.pai.pai.adapters.AdaptadorChat
@@ -133,7 +134,13 @@ class ChatIndividualActivity : AppCompatActivity() {
 
     private fun sendMessage(message: Message){
         val firebaseMsg = chatRef.push()
+
         message.id = firebaseMsg.key ?: ""
+
+        if(UserObject.getEncrypt()){
+            message.encriptado = true
+            message.contenido = CifradoTools.cifrar(message.contenido, "mensajeEncrypted")
+        }
 
         firebaseMsg.setValue(message)
     }
@@ -161,6 +168,10 @@ class ChatIndividualActivity : AppCompatActivity() {
                     else {
                         mensaje.from = nombreUsuario
                         mensaje.esMio = false
+                    }
+
+                    if(mensaje.encriptado){
+                        mensaje.contenido = CifradoTools.descifrar(mensaje.contenido, "mensajeEncrypted")
                     }
 
 
