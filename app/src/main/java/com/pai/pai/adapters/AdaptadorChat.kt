@@ -76,6 +76,7 @@ class AdaptadorChat(private val listaMensajes: MutableList<Message>):
                 val pathReference: StorageReference = StorageRef.child("images/" + mensaje.contenido.toUri().lastPathSegment)
                 var localFile = File.createTempFile("tempImg", "jpg")
                 var file: Uri = pathDownloads.toUri()
+                val stream = ByteArrayOutputStream()
 
                 pathReference.getFile(localFile).addOnSuccessListener {
                     val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
@@ -88,7 +89,6 @@ class AdaptadorChat(private val listaMensajes: MutableList<Message>):
                 ivImage.visibility = ImageView.VISIBLE
                 tvMensaje.text = "Se envió una imagen:"
                 ivImage.setImageURI(mensaje.contenido.toUri())
-                localFile = File.createTempFile("tempImg", "jpg")
             }
         }
     }
