@@ -81,7 +81,7 @@ class CreateSubgroupActivity: AppCompatActivity() {
 
                     val usuario: User = snap.getValue(User::class.java) as User
 
-                    if(usuario.id != UserObject.getId()){
+                    if(usuario.id != UserObject.getId() && usuario.carrera == GroupObject.getName()){
                         usuarios.add(usuario)
                     }
                 }

@@ -9,12 +9,14 @@ object UserObject {
     private var email : String = ""
     private var pass : String = ""
     private var encript : Boolean = true
+    private var carrera : String = ""
 
-    fun setUser(id: String, name: String?, email: String, pass: String){
+    fun setUser(id: String, name: String?, email: String, pass: String,  carrera: String){
         this.userId = id
         this.username = name
         this.email = email
         this.pass = pass
+        this.carrera = carrera
     }
 
     fun logOut(){
@@ -22,6 +24,7 @@ object UserObject {
         this.username = ""
         this.email = ""
         this.pass = ""
+        this.carrera = ""
     }
 
     fun setEncript(encrypt : Boolean){
@@ -46,6 +49,10 @@ object UserObject {
 
     fun getEncrypt(): Boolean{
         return this.encript
+    }
+
+    fun getCarrera(): String{
+        return this.carrera
     }
 
 }

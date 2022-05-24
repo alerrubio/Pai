@@ -68,8 +68,14 @@ class GroupActivity:  AppCompatActivity() {
         getSubgroups()
 
         fab.setOnClickListener {
-            val intent = Intent(this@GroupActivity, CreateSubgroupActivity::class.java)
-            startActivity(intent)
+            if(UserObject.getCarrera() == GroupObject.getName()){
+
+                val intent = Intent(this@GroupActivity, CreateSubgroupActivity::class.java)
+                startActivity(intent)
+            }
+            else{
+                Toast.makeText(this@GroupActivity, "Usted no pertecene a esta carrera y no puede crear equipos aquí", Toast.LENGTH_SHORT).show()
+            }
         }
 
         btnChat.setOnClickListener {

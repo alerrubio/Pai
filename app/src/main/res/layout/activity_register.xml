@@ -17,8 +17,8 @@
         android:id="@+id/input_AM_R"
         android:layout_width="284dp"
         android:layout_height="0dp"
-        android:ems="10"
         android:layout_marginTop="16dp"
+        android:ems="10"
         android:hint="Apellido materno"
         android:textColor="#FFFFFF"
         android:textColorHint="#837A7A"
@@ -210,20 +210,46 @@
         app:layout_constraintStart_toStartOf="@+id/lbl_Password_R"
         app:layout_constraintTop_toBottomOf="@+id/input_password_R" />
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Seleccione una carrera"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/input_AM_R"
+        app:layout_constraintTop_toBottomOf="@+id/input_AM_R" />
+
+    <Spinner
+        android:id="@+id/spinner_carreras"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/white"
+        android:backgroundTint="@color/white"
+        android:entries="@array/carreras"
+        android:minHeight="32dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/input_AM_R"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
     <Button
         android:id="@+id/btn_edit_R"
         android:layout_width="wrap_content"
         android:layout_height="52dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginBottom="70dp"
         android:text="@string/register"
         android:textSize="18sp"
         android:textStyle="bold"
         app:backgroundTint="@color/yellow"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_AM_R" />
+        app:layout_constraintEnd_toEndOf="@+id/spinner_carreras"
+        app:layout_constraintStart_toStartOf="@+id/spinner_carreras"
+        app:layout_constraintTop_toBottomOf="@id/spinner_carreras" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
