@@ -89,8 +89,8 @@ class ChatIndividualActivity : AppCompatActivity() {
         btnEnviar.setOnClickListener {
             val mensaje = txtMensaje.text.toString()
             if(mensaje.isNotEmpty()){
-                txtMensaje.text.clear()
                 sendMessage(Message("", mensaje, user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString()))
+                txtMensaje.text.clear()
             }
             if (fileCamera != null) {
                 subirImagen(fileCamera!!)

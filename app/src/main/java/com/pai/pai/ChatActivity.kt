@@ -84,36 +84,10 @@ class ChatActivity : AppCompatActivity() {
         btnEnviar.setOnClickListener {
             val mensaje = txtMensaje.text.toString()
             if(mensaje.isNotEmpty()){
+                sendMessage(Message("", mensaje, user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString()))
                 txtMensaje.text.clear()
-                var msg = Message("", mensaje, user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString())
-                msg.imageFile = false
-
-                if (fileCamera != null) {
-                    subirImagen(fileCamera!!)
-                    var uri = Uri.fromFile(fileCamera)
-                    msg.image = uri.toString()
-                    msg.imageFile = true
-                    sendMessage(msg)
-                    fileCamera = null
-                    filePath = ""
-                    btnCamera.backgroundTintList =
-                        ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
-                }
-
-                if (fileGallery != null) {
-                    subirImagen(fileGallery!!)
-                    var uri = Uri.fromFile(fileGallery)
-                    msg.image = uri.toString()
-                    msg.imageFile = true
-                    sendMessage(msg)
-                    fileGallery = null
-                    filePath = ""
-                    btnFiles.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
-                }
-
-                sendMessage(msg)
             }
-            /*if (fileCamera != null) {
+            if (fileCamera != null) {
                 subirImagen(fileCamera!!)
                 var uri = Uri.fromFile(fileCamera)
                 var msg = Message("", uri.toString(), user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString())
@@ -122,7 +96,6 @@ class ChatActivity : AppCompatActivity() {
                 fileCamera = null
                 filePath = ""
                 btnCamera.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
-
                 /*subirImagen(fileCamera!!)
                 var urlString = "gs://paiapp-ce0a6.appspot.com/images/"
                 var uri = Uri.fromFile(fileCamera)
@@ -143,7 +116,6 @@ class ChatActivity : AppCompatActivity() {
                 fileGallery = null
                 filePath = ""
                 btnFiles.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
-
                 /*subirImagen(fileGallery!!)
                 var urlString = "gs://paiapp-ce0a6.appspot.com/images/"
                 var uri = Uri.fromFile(fileGallery)
@@ -155,7 +127,7 @@ class ChatActivity : AppCompatActivity() {
                 fileGallery = null
                 filePath = ""
                 btnFiles.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))*/
-            }*/
+            }
         }
 
 
