@@ -96,16 +96,7 @@ class ChatActivity : AppCompatActivity() {
                 fileCamera = null
                 filePath = ""
                 btnCamera.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
-                /*subirImagen(fileCamera!!)
-                var urlString = "gs://paiapp-ce0a6.appspot.com/images/"
-                var uri = Uri.fromFile(fileCamera)
-                urlString += uri.lastPathSegment
-                val pathReference: StorageReference = StorageRef.child("images/"+ uri.lastPathSegment)
-                sendMessage(Message("", "Se envió una imagen: " + pathReference.downloadUrl.toString(), user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString()))
 
-                fileCamera = null
-                filePath = ""
-                btnCamera.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))*/
             }
             if (fileGallery != null) {
                 subirImagen(fileGallery!!)
@@ -116,17 +107,7 @@ class ChatActivity : AppCompatActivity() {
                 fileGallery = null
                 filePath = ""
                 btnFiles.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
-                /*subirImagen(fileGallery!!)
-                var urlString = "gs://paiapp-ce0a6.appspot.com/images/"
-                var uri = Uri.fromFile(fileGallery)
-                urlString += uri.lastPathSegment
-                val pathReference: StorageReference = StorageRef.child(urlString + uri.lastPathSegment)
-                pathReference.downloadUrl.addOnSuccessListener{
-                    sendMessage(Message("", "Se envió una imagen: " + it.toString(), user!!.uid, ServerValue.TIMESTAMP, UserObject.getName().toString()))
-                }
-                fileGallery = null
-                filePath = ""
-                btnFiles.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))*/
+
             }
         }
 
@@ -264,7 +245,7 @@ class ChatActivity : AppCompatActivity() {
 
     private fun abrirMapa() {
 
-        startActivityForResult(Intent(this, MapsActivity::class.java), 1)
+        startActivityForResult(Intent(this, MapsActivity::class.java), getLocation)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

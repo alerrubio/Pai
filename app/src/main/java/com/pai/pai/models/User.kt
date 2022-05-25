@@ -16,7 +16,7 @@ class User (
     var carrera: String = ""
         ){
     @Exclude
-    var tareas : Boolean = java.lang.Boolean.FALSE
-    var chatIndividual : Boolean = java.lang.Boolean.FALSE
-    lateinit var image: Bitmap
+    var tareas : Boolean = false
+    var chatIndividual : Boolean = false
+//    lateinit var image: Bitmap
 }

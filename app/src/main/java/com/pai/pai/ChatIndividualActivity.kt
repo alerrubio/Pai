@@ -413,7 +413,7 @@ class ChatIndividualActivity : AppCompatActivity() {
                         when(gamToUpdate){
                             "chat" -> {
                                 var auxId  = snap.key
-                                var db = database.getReference("users/"+auxId+"/tareas");
+                                var db = database.getReference("users/"+auxId+"/chatIndividual");
                                 db.ref.setValue(true)
                             }
                             "tareas" -> {
