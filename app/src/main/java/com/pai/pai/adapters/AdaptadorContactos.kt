@@ -106,15 +106,18 @@ class AdaptadorContactos(private val listaUsuarios: MutableList<User>, val conte
                     ConnectedUsers.setconnectedUsers(uid)
 
                     if (ConnectedUsers.getMembers().contains(userid)){
-                        btnStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FF8BC34A"))
+                        btnStatus.setColorFilter(Color.parseColor("#FF8BC34A"));
+                        //btnStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FF8BC34A"))
                     }else{
-                        btnStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#d0b616"))
+                        btnStatus.setColorFilter(Color.parseColor("#3E3C3C"));
+                        //btnStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#d0b616"))
                     }
 
                 }
 
                 if (ConnectedUsers.getMembers().isEmpty()){
-                    btnStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#d0b616"))
+                    btnStatus.setColorFilter(Color.parseColor("#3E3C3C"));
+                    //btnStatus.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#d0b616"))
                 }
             }
 
