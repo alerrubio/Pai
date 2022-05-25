@@ -9,9 +9,14 @@
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:background="@color/black"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tb_create_tareas"
@@ -39,7 +44,7 @@
         <EditText
             android:id="@+id/et_tareas_descripcion"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="200dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:height="50dp"
@@ -47,7 +52,7 @@
             android:gravity="center_horizontal"
             android:hint="Descripcion de la tarea"
             android:inputType="textMultiLine"
-            android:maxHeight="50dp"
+            android:maxHeight="250dp"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
