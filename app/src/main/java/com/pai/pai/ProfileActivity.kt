@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.drjacky.imagepicker.ImagePicker
 import com.github.drjacky.imagepicker.constant.ImageProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -48,6 +49,8 @@ class ProfileActivity:  AppCompatActivity() {
     var filePath: String? = ""
     private lateinit var ivPP : ImageView
     private var imageUri: Uri? = null
+
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -132,6 +135,8 @@ class ProfileActivity:  AppCompatActivity() {
             .addOnSuccessListener { snap ->
 
                 imageRef.downloadUrl.addOnSuccessListener {
+
+
                     //UserObject.setUri(uriFile.lastPathSegment!!.toUri())
                 }
                 Toast.makeText(this, "Imagen guardada", Toast.LENGTH_SHORT).show()

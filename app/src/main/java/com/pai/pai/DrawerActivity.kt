@@ -195,16 +195,15 @@ class DrawerActivity : AppCompatActivity() {
 
     fun getImage(){
         lateinit var pathReference: StorageReference
-        var localFile = File.createTempFile("tempImg", ".png")
+        var localFile = File.createTempFile("tempImg", "png")
 
         pathReference = StorageRef.child("images/users/" + UserObject.getUri())
         pathReference.getFile(localFile).addOnSuccessListener {
             var bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
             UserObject.setUri(bitmap)
         }
-            .addOnFailureListener{
-                Log.e("ERROR ", it.toString())
-            }
+        .addOnFailureListener{
+            Log.e("ERROR ", it.toString())
+        }
     }
-
 }
