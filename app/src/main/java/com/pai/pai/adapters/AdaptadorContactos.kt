@@ -3,13 +3,16 @@ package com.pai.pai.adapters
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.fcfm.poi.encriptacin.CifradoTools
 import com.google.firebase.auth.FirebaseAuth
@@ -26,6 +29,7 @@ import com.pai.pai.R
 import com.pai.pai.models.ConnectedUsers
 import com.pai.pai.models.Message
 import com.pai.pai.models.User
+import com.pai.pai.models.UserObject
 
 class AdaptadorContactos(private val listaUsuarios: MutableList<User>, val context: Context):
     RecyclerView.Adapter<AdaptadorContactos.ContactViewHolder>() {
@@ -43,6 +47,8 @@ class AdaptadorContactos(private val listaUsuarios: MutableList<User>, val conte
             val ivUser = itemView.findViewById<ImageView>(R.id.iv_contacto)
             val contenedorContacto = itemView.findViewById<LinearLayout>(R.id.contenedor_contacto)
             val statusIcon = itemView.findViewById<ImageButton>(R.id.btn_status)
+            val btnCorreo = itemView.findViewById<ImageButton>(R.id.btn_correo)
+
             tvUserId = itemView.findViewById<TextView>(R.id.tv_userid)
 
             userConnection(usuario.id,statusIcon)
@@ -59,6 +65,10 @@ class AdaptadorContactos(private val listaUsuarios: MutableList<User>, val conte
                 params.height
             )
             contenedorContacto.layoutParams = newParams
+
+            btnCorreo.setOnClickListener{
+                sendEmail(usuario.email, user!!.email!! )
+            }
 
         }
 
@@ -125,6 +135,15 @@ class AdaptadorContactos(private val listaUsuarios: MutableList<User>, val conte
                 Log.w(ContentValues.TAG, "Listener was cancelled at .info/connected")
             }
         })
+    }
+
+    fun sendEmail(to: String, from: String){
+        val intentCorreo = Intent(Intent.ACTION_SENDTO)
+        intentCorreo.putExtra(Intent.EXTRA_EMAIL, arrayOf(to))
+        intentCorreo.data = Uri.parse("mailto:")
+
+        var intentCorreo2 = Intent.createChooser(intentCorreo, null)
+        context.startActivity(intentCorreo2)
     }
 
 }

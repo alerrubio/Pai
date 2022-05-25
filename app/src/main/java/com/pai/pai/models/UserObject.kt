@@ -19,6 +19,7 @@ object UserObject {
     private var chatIndividual : Boolean = java.lang.Boolean.FALSE
     private var image: Bitmap ? = null
 
+
     fun setUser(id: String, name: String?, email: String, pass: String,  carrera: String){
         this.userId = id
         this.username = name
