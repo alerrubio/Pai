@@ -13,15 +13,12 @@ import com.fcfm.poi.encriptacin.CifradoTools
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.FirebaseDatabase
 import com.pai.pai.adapters.AdaptadorSubgrupos
-import com.pai.pai.models.GroupObject
-import com.pai.pai.models.Subgrupo
-import com.pai.pai.models.TareaObject
-import com.pai.pai.models.UserObject
+import com.pai.pai.models.*
 
 class TareaDetailsActivity: AppCompatActivity() {
 
     private val database = FirebaseDatabase.getInstance()
-    private var rama = "tareas/"+ TareaObject.getId()+"/Usuarios/"
+    private var rama = "tareas/"+ TareaObject.getId()+"/usuarios"
     private val tareaRef = database.getReference(rama)
 
 
@@ -50,11 +47,15 @@ class TareaDetailsActivity: AppCompatActivity() {
 
 
         btnEntregar.setOnClickListener {
-            val firebaseMsg = tareaRef.push()
+            //val firebaseMsg = tareaRef.push()
 
-            val entregado = listOf(UserObject.getId(), true)
+            var usuarios: MutableList<String> = mutableListOf()
+            usuarios = TareaObject.getUsuarios()
+            usuarios.add(UserObject.getId())
 
-            firebaseMsg.setValue(entregado)
+            tareaRef.ref.setValue(usuarios)
+
+            //firebaseMsg.setValue(usuarios)
             finish()
         }
     }

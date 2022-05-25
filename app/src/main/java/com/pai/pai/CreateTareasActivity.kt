@@ -79,8 +79,11 @@ class CreateTareasActivity: AppCompatActivity(), AdapterView.OnItemSelectedListe
             }
         }
 
+        val usuarios:MutableList<String> = mutableListOf()
+        usuarios.add("Hola")
+
         if(name!="" && descripcion!=""){
-            sendToFireBase(Tarea("", name, descripcion, carrera))
+            sendToFireBase(Tarea("", name, descripcion, carrera, usuarios))
         }
         else{
             Toast.makeText(this@CreateTareasActivity, "Llenar todos los campos", Toast.LENGTH_SHORT).show()

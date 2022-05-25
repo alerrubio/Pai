@@ -44,11 +44,15 @@ class AdaptadorTareas (private val listaTarea: MutableList<Tarea>, val context: 
             val contenedorTarea = itemView.findViewById<LinearLayout>(R.id.contenedor_tareas)
 
 
-           validarEntrega(tarea)
+           //validarEntrega(tarea)
 
-            if(TareaObject.getChecked()){
+            /*if(TareaObject.getChecked()){
                 checkBox.isChecked=true
                 TareaObject.setChecked(false)
+            }*/
+
+            if(tarea.checked){
+                checkBox.isChecked = true
             }
 
 
@@ -78,7 +82,7 @@ class AdaptadorTareas (private val listaTarea: MutableList<Tarea>, val context: 
             when (v!!.id) {
                 R.id.frametareas -> {
 
-                    TareaObject.setTarea(listaTarea[pos].id, tvHwName.text.toString(), tvHwDescription.text.toString(), checked)
+                    TareaObject.setTarea(listaTarea[pos].id, tvHwName.text.toString(), tvHwDescription.text.toString(), checked, listaTarea[pos].usuarios)
                     val intent = Intent(context, TareaDetailsActivity::class.java)
                     context.startActivity(intent)
 
@@ -87,7 +91,7 @@ class AdaptadorTareas (private val listaTarea: MutableList<Tarea>, val context: 
         }
     }
 
-    private fun validarEntrega(tarea: Tarea){
+    /*private fun validarEntrega(tarea: Tarea){
         rama = ""
         rama = "tareas/"+tarea.id+"/Usuarios"
         val userRef = database.getReference(rama)
@@ -98,12 +102,12 @@ class AdaptadorTareas (private val listaTarea: MutableList<Tarea>, val context: 
 
                 for (snap in snapshot.children) {
 
-                    val validar: ArrayList<Any> = snap.getValue() as ArrayList<Any>
+                    val validar: String = snap.getValue() as String
 
-                    if(validar[0] == UserObject.getId() && validar[1] == true){
+                    if(validar == UserObject.getId()){
 
-                        TareaObject.setChecked(true)
-                        //checkBox.isChecked = true
+                        //TareaObject.setChecked(true)
+                        checkBox.isChecked = true
                         break
                     }
                 }
@@ -115,7 +119,7 @@ class AdaptadorTareas (private val listaTarea: MutableList<Tarea>, val context: 
             }
         })
 
-    }
+    }*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
         val miView =
