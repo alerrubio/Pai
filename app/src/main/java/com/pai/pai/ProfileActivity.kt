@@ -1,7 +1,9 @@
 package com.pai.pai
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.media.Image
 import android.net.Uri
 import android.os.Bundle
@@ -41,6 +43,8 @@ class ProfileActivity:  AppCompatActivity() {
     private var rama = "groups/id"+ GroupObject.getId().toString()+"/Subgrupos"
     private val subRef = database.getReference(rama)
     var StorageRef = FirebaseStorage.getInstance().reference
+    var fileGallery: File? = null
+    var filePath: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +55,8 @@ class ProfileActivity:  AppCompatActivity() {
         val txtPass = findViewById<EditText>(R.id.input_contraseña_P)
         var ivPP = findViewById<ImageView>(R.id.profile_pic_P)
         var btnFiles = findViewById<Button>(R.id.btn_new_pp)
-        getImage(ivPP)
+
+        //getImage(ivPP)
         txtName.setText(UserObject.getName())
         txtEmail.setText(UserObject.getEmail())
         txtPass.setText(UserObject.getPass())
@@ -59,8 +64,13 @@ class ProfileActivity:  AppCompatActivity() {
         val check = findViewById<CheckBox>(R.id.checkBox)
         val btnAceptar = findViewById<Button>(R.id.btn_edit_P)
 
+        if (UserObject.hasImage())
+            ivPP.setImageURI(UserObject.getUri())
+        
+
         btnFiles.setOnClickListener{
             selectGalleryImage(ImageProvider.GALLERY)
+
         }
 
         btnAceptar.setOnClickListener{
@@ -72,6 +82,10 @@ class ProfileActivity:  AppCompatActivity() {
                 Toast.makeText(this, "Sus mensajes no serán encriptados", Toast.LENGTH_SHORT).show()
                 UserObject.setEncript(false)
             }
+            if (fileGallery != null){
+                subirImagen(fileGallery!!, ivPP)
+            }
+
             val intent = Intent(this, DrawerActivity::class.java)
             startActivity(intent)
         }
@@ -106,15 +120,17 @@ class ProfileActivity:  AppCompatActivity() {
             }
     }
 
-    fun subirImagen(file: File) {
+    fun subirImagen(file: File, iv: ImageView) {
         var uriFile = Uri.fromFile(file)
-
-        val imageRef = StorageRef.child("images/users/${uriFile.lastPathSegment}")
+        iv.setImageURI(uriFile.lastPathSegment!!.toUri())
+        UserObject.setUri(uriFile.lastPathSegment!!.toUri())
+        /*val imageRef = StorageRef.child("images/users/${uriFile.lastPathSegment}")
         imageRef.putFile(uriFile)
             .addOnSuccessListener { snap ->
 
                 imageRef.downloadUrl.addOnSuccessListener {
                     UserObject.setUri(uriFile.lastPathSegment!!.toUri())
+                    iv.setImageURI(uriFile.lastPathSegment!!.toUri())
                 }
 
                 Toast.makeText(this, "Imagen guardada", Toast.LENGTH_SHORT).show()
@@ -122,7 +138,7 @@ class ProfileActivity:  AppCompatActivity() {
             .addOnFailureListener {
 
                 Toast.makeText(this, "No se pudo subir tu imagen", Toast.LENGTH_SHORT).show()
-            }
+            }*/
     }
 
     private fun selectGalleryImage(provider: ImageProvider){
@@ -132,6 +148,19 @@ class ProfileActivity:  AppCompatActivity() {
             .createIntent() //Default Request Code is ImagePicker.REQUEST_CODE
 
         startActivityForResult(intentGaleria, pickImage)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == RESULT_OK && requestCode == pickImage){
+            val fileUri = data?.data
+            fileGallery = ImagePicker.getFile(data)!!
+            filePath = ImagePicker.getFilePath(data)!!
+
+            //subirImagen(fileGallery!!)
+        }
+
     }
 
 }

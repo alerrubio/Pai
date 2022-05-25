@@ -86,4 +86,11 @@ object UserObject {
     fun setUri(uri: Uri){
         this.image = uri
     }
+
+    fun hasImage(): Boolean{
+        if (this.image != "".toUri())
+            return true
+        else
+            return false
+    }
 }
