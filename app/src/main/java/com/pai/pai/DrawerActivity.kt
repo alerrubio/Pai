@@ -2,8 +2,11 @@ package com.pai.pai
 
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -24,9 +27,12 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.pai.pai.adapters.ViewPagerAdapater
 import com.pai.pai.fragments.ChatFragment
 import com.pai.pai.models.*
+import java.io.File
 
 class DrawerActivity : AppCompatActivity() {
 
@@ -36,6 +42,9 @@ class DrawerActivity : AppCompatActivity() {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val user = auth.currentUser
     private val database = FirebaseDatabase.getInstance()
+    var StorageRef = FirebaseStorage.getInstance().reference
+
+    private lateinit var picdrawer: ImageView
 
     fun cambiarFragmento(fragmentoNuevo: Fragment, tag: String){
 
@@ -54,6 +63,7 @@ class DrawerActivity : AppCompatActivity() {
         presenceRef.onDisconnect().setValue(user!!.uid)
 
         userConnection()
+        getImage()
 
         val miNav = findViewById<NavigationView>(R.id.nav)
         val miDrawer = findViewById<DrawerLayout>(R.id.drawer)
@@ -63,6 +73,14 @@ class DrawerActivity : AppCompatActivity() {
         val toggle = ActionBarDrawerToggle(this, miDrawer, toolbar, R.string.app_name, R.string.app_name)
         miDrawer.addDrawerListener(toggle)
         toggle.syncState()
+
+        val header = miNav.getHeaderView(0)
+        picdrawer = header.findViewById(R.id.iv_header_pp)
+        val namedrawer = header.findViewById<TextView>(R.id.tv_header_username)
+
+        namedrawer.text = UserObject.getUsername()
+        picdrawer.setImageBitmap(UserObject.getUri())
+
 
         nombreUsuario = intent.getStringExtra("username") ?: "sin_nombre"
 
@@ -173,6 +191,20 @@ class DrawerActivity : AppCompatActivity() {
                 Log.w(TAG, "Listener was cancelled at .info/connected")
             }
         })
+    }
+
+    fun getImage(){
+        lateinit var pathReference: StorageReference
+        var localFile = File.createTempFile("tempImg", ".png")
+
+        pathReference = StorageRef.child("images/users/" + UserObject.getUri())
+        pathReference.getFile(localFile).addOnSuccessListener {
+            var bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
+            UserObject.setUri(bitmap)
+        }
+            .addOnFailureListener{
+                Log.e("ERROR ", it.toString())
+            }
     }
 
 }

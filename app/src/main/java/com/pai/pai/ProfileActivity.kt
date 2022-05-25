@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.media.Image
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.MenuItem
 import android.widget.*
@@ -45,6 +46,8 @@ class ProfileActivity:  AppCompatActivity() {
     var StorageRef = FirebaseStorage.getInstance().reference
     var fileGallery: File? = null
     var filePath: String? = ""
+    private lateinit var ivPP : ImageView
+    private var imageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +56,7 @@ class ProfileActivity:  AppCompatActivity() {
         val txtName = findViewById<EditText>(R.id.input_username_P)
         val txtEmail = findViewById<EditText>(R.id.input_email_P)
         val txtPass = findViewById<EditText>(R.id.input_contraseña_P)
-        var ivPP = findViewById<ImageView>(R.id.profile_pic_P)
+        ivPP = findViewById(R.id.profile_pic_P)
         var btnFiles = findViewById<Button>(R.id.btn_new_pp)
 
         //getImage(ivPP)
@@ -65,7 +68,7 @@ class ProfileActivity:  AppCompatActivity() {
         val btnAceptar = findViewById<Button>(R.id.btn_edit_P)
 
         if (UserObject.hasImage())
-            ivPP.setImageURI(UserObject.getUri())
+            ivPP.setImageBitmap(UserObject.getUri())
         
 
         btnFiles.setOnClickListener{
@@ -106,7 +109,7 @@ class ProfileActivity:  AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun getImage(iv: ImageView){
+    /*fun getImage(iv: ImageView){
         lateinit var pathReference: StorageReference
         var localFile = File.createTempFile("tempImg", "png")
 
@@ -118,27 +121,25 @@ class ProfileActivity:  AppCompatActivity() {
             .addOnFailureListener{
                 Log.e("ERROR ", it.toString())
             }
-    }
+    }*/
 
     fun subirImagen(file: File, iv: ImageView) {
         var uriFile = Uri.fromFile(file)
-        iv.setImageURI(uriFile.lastPathSegment!!.toUri())
-        UserObject.setUri(uriFile.lastPathSegment!!.toUri())
-        /*val imageRef = StorageRef.child("images/users/${uriFile.lastPathSegment}")
+
+        //UserObject.setUri(uriFile.lastPathSegment!!.toUri())
+        val imageRef = StorageRef.child("images/users/${uriFile.lastPathSegment}")
         imageRef.putFile(uriFile)
             .addOnSuccessListener { snap ->
 
                 imageRef.downloadUrl.addOnSuccessListener {
-                    UserObject.setUri(uriFile.lastPathSegment!!.toUri())
-                    iv.setImageURI(uriFile.lastPathSegment!!.toUri())
+                    //UserObject.setUri(uriFile.lastPathSegment!!.toUri())
                 }
-
                 Toast.makeText(this, "Imagen guardada", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener {
 
                 Toast.makeText(this, "No se pudo subir tu imagen", Toast.LENGTH_SHORT).show()
-            }*/
+            }
     }
 
     private fun selectGalleryImage(provider: ImageProvider){
@@ -154,11 +155,18 @@ class ProfileActivity:  AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == RESULT_OK && requestCode == pickImage){
-            val fileUri = data?.data
+            imageUri = data?.data
+            ivPP.setImageURI(imageUri)
+
+            var bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
+
+
+            UserObject.setUri(bitmap!!)
+
             fileGallery = ImagePicker.getFile(data)!!
             filePath = ImagePicker.getFilePath(data)!!
 
-            //subirImagen(fileGallery!!)
+            //subirImagen(fileGallery!!, ivPP)
         }
 
     }

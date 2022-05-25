@@ -1,8 +1,11 @@
 package com.pai.pai.models
 
+import android.graphics.Bitmap
 import android.net.Uri
+import android.provider.MediaStore
 import android.text.BoringLayout
 import androidx.core.net.toUri
+import java.io.ByteArrayOutputStream
 
 object UserObject {
 
@@ -14,7 +17,8 @@ object UserObject {
     private var carrera : String = ""
     private var tareas : Boolean = java.lang.Boolean.FALSE
     private var chatIndividual : Boolean = java.lang.Boolean.FALSE
-    private var image: Uri = "".toUri()
+    private var image: Bitmap ? = null
+
     fun setUser(id: String, name: String?, email: String, pass: String,  carrera: String){
         this.userId = id
         this.username = name
@@ -79,16 +83,24 @@ object UserObject {
         return this.username!!
     }
 
-    fun getUri(): Uri{
+    fun getUri(): Bitmap?{
+
+
+        var bytes = ByteArrayOutputStream()
+
+        this.image?.compress(Bitmap.CompressFormat.PNG, 0, bytes)
+
+        //var byteImage = bytes.toByteArray()
+
         return this.image
     }
 
-    fun setUri(uri: Uri){
-        this.image = uri
+    fun setUri(image: Bitmap){
+        this.image = image
     }
 
     fun hasImage(): Boolean{
-        if (this.image != "".toUri())
+        if (this.image != null)
             return true
         else
             return false
