@@ -79,5 +79,11 @@ object UserObject {
         return this.username!!
     }
 
+    fun getUri(): Uri{
+        return this.image
+    }
 
+    fun setUri(uri: Uri){
+        this.image = uri
+    }
 }

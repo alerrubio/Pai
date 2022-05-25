@@ -2,6 +2,8 @@ package com.pai.pai
 
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.media.Image
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -11,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.github.drjacky.imagepicker.ImagePicker
+import com.github.drjacky.imagepicker.constant.ImageProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -32,7 +36,7 @@ class ProfileActivity:  AppCompatActivity() {
     private var gruposAdaptador: AdaptadorSubgrupos? = null
     private lateinit var rvSubgroups: RecyclerView
     private val subgrupos = mutableListOf<Subgrupo>()
-
+    private var pickImage = 100
     private val database = FirebaseDatabase.getInstance()
     private var rama = "groups/id"+ GroupObject.getId().toString()+"/Subgrupos"
     private val subRef = database.getReference(rama)
@@ -45,13 +49,19 @@ class ProfileActivity:  AppCompatActivity() {
         val txtName = findViewById<EditText>(R.id.input_username_P)
         val txtEmail = findViewById<EditText>(R.id.input_email_P)
         val txtPass = findViewById<EditText>(R.id.input_contraseña_P)
-
+        var ivPP = findViewById<ImageView>(R.id.profile_pic_P)
+        var btnFiles = findViewById<Button>(R.id.btn_new_pp)
+        getImage(ivPP)
         txtName.setText(UserObject.getName())
         txtEmail.setText(UserObject.getEmail())
         txtPass.setText(UserObject.getPass())
 
         val check = findViewById<CheckBox>(R.id.checkBox)
         val btnAceptar = findViewById<Button>(R.id.btn_edit_P)
+
+        btnFiles.setOnClickListener{
+            selectGalleryImage(ImageProvider.GALLERY)
+        }
 
         btnAceptar.setOnClickListener{
             if(check.isChecked){
@@ -82,11 +92,11 @@ class ProfileActivity:  AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun getImage(path: String, iv: ImageView){
+    fun getImage(iv: ImageView){
         lateinit var pathReference: StorageReference
         var localFile = File.createTempFile("tempImg", "png")
 
-        pathReference = StorageRef.child("images/gamification/" + path)
+        pathReference = StorageRef.child("images/users/" + UserObject.getUri())
         pathReference.getFile(localFile).addOnSuccessListener {
             var bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
             iv.setImageBitmap(bitmap)
@@ -94,6 +104,34 @@ class ProfileActivity:  AppCompatActivity() {
             .addOnFailureListener{
                 Log.e("ERROR ", it.toString())
             }
+    }
+
+    fun subirImagen(file: File) {
+        var uriFile = Uri.fromFile(file)
+
+        val imageRef = StorageRef.child("images/users/${uriFile.lastPathSegment}")
+        imageRef.putFile(uriFile)
+            .addOnSuccessListener { snap ->
+
+                imageRef.downloadUrl.addOnSuccessListener {
+                    UserObject.setUri(uriFile.lastPathSegment!!.toUri())
+                }
+
+                Toast.makeText(this, "Imagen guardada", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+
+                Toast.makeText(this, "No se pudo subir tu imagen", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun selectGalleryImage(provider: ImageProvider){
+        val intentGaleria = ImagePicker.with(this)
+            .galleryOnly() //User can only select image from Gallery
+            .provider(provider)
+            .createIntent() //Default Request Code is ImagePicker.REQUEST_CODE
+
+        startActivityForResult(intentGaleria, pickImage)
     }
 
 }

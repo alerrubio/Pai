@@ -56,14 +56,14 @@
             android:id="@+id/lbl_Email_P"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="28dp"
             android:text="@string/email"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/input_email_P"
-            app:layout_constraintTop_toBottomOf="@+id/profile_pic_P" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_new_pp" />
 
         <TextView
             android:id="@+id/lbl_Username_P"
@@ -122,7 +122,6 @@
             android:id="@+id/btn_edit_P"
             android:layout_width="wrap_content"
             android:layout_height="52dp"
-            android:layout_marginTop="20dp"
             android:layout_marginBottom="24dp"
             android:text="Aceptar"
             android:textSize="18sp"
@@ -130,10 +129,10 @@
             app:backgroundTint="@color/yellow"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/input_contraseña_P"
-            app:layout_constraintHorizontal_bias="0.512"
+            app:layout_constraintHorizontal_bias="0.506"
             app:layout_constraintStart_toStartOf="@+id/input_contraseña_P"
-            app:layout_constraintTop_toBottomOf="@+id/input_contraseña_P"
-            app:layout_constraintVertical_bias="0.931" />
+            app:layout_constraintTop_toBottomOf="@+id/checkBox"
+            app:layout_constraintVertical_bias="1.0" />
 
         <CheckBox
             android:id="@+id/checkBox"
@@ -145,6 +144,17 @@
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="@+id/input_contraseña_P"
             app:layout_constraintTop_toBottomOf="@+id/input_contraseña_P" />
+
+        <Button
+            android:id="@+id/btn_new_pp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="subir foto"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_pic_P" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
