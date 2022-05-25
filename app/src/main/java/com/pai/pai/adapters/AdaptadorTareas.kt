@@ -5,21 +5,23 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.pai.pai.GroupActivity
 import com.pai.pai.R
 import com.pai.pai.models.GroupObject
 import com.pai.pai.models.Grupos
 import com.pai.pai.models.Tarea
+import com.pai.pai.models.TareaObject
 
 class AdaptadorTareas (private val listaTarea: MutableList<Tarea>, val context: Context):
     RecyclerView.Adapter<AdaptadorTareas.GroupViewHolder>() {
 
     private lateinit var tvTareaId: TextView
+    private lateinit var tvHwName: TextView
+    private lateinit var tvHwDescription: TextView
+    private lateinit var checkBox: CheckBox
+    private var checked = false
 
 
     inner class GroupViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
@@ -29,10 +31,15 @@ class AdaptadorTareas (private val listaTarea: MutableList<Tarea>, val context: 
 
         fun asignarInformacion(tarea: Tarea) {
 
-            val tvHwName = itemView.findViewById<TextView>(R.id.tv_tarea_name)
-            val tvHwDescription = itemView.findViewById<TextView>(R.id.tv_tarea_descripcion)
+            tvHwName = itemView.findViewById(R.id.tv_tarea_name)
+            tvHwDescription = itemView.findViewById(R.id.tv_tarea_descripcion)
+            checkBox = itemView.findViewById(R.id.chb_tarea)
+
             val contenedorTarea = itemView.findViewById<LinearLayout>(R.id.contenedor_tareas)
 
+            if(checkBox.isChecked){
+                checked = true
+            }
 
             tvHwName.text = tarea.name
             tvHwDescription.text = tarea.descripcion
@@ -59,6 +66,9 @@ class AdaptadorTareas (private val listaTarea: MutableList<Tarea>, val context: 
 
             when (v!!.id) {
                 R.id.frametareas -> {
+
+                    TareaObject.setTarea(tvHwName.text.toString(), tvHwDescription.text.toString(), checked)
+                    //TODO mandar al activity de detalles de la tarea
 
                 }
             }

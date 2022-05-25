@@ -51,17 +51,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_weight="1"
+                android:enabled="false"
                 android:text="Entregada" />
 
-            <Button
-                android:id="@+id/btn_tarea_entregar"
-                android:layout_width="48dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="12dp"
-                android:layout_weight="1"
-                android:backgroundTint="#64A7BC"
-                android:minWidth="48dp"
-                android:text="Entregar" />
         </LinearLayout>
 
     </LinearLayout>
