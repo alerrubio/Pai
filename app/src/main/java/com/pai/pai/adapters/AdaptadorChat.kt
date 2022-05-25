@@ -39,7 +39,6 @@ class AdaptadorChat(private val listaMensajes: MutableList<Message>):
             val contenedorMensaje = itemView.findViewById<LinearLayout>(R.id.contenedorMensaje)
 
             tvUser.text = mensaje.usuario
-            tvMensaje.text = mensaje.contenido
 
             val dateFormater = SimpleDateFormat("dd/MM/yyyy - HH:mm:ss", Locale.getDefault())
             val fecha = dateFormater.format(Date(mensaje.timeStamp as Long))
@@ -75,20 +74,20 @@ class AdaptadorChat(private val listaMensajes: MutableList<Message>):
                 val pathDownloads = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path + "/"
                 val pathReference: StorageReference = StorageRef.child("images/" + mensaje.contenido.toUri().lastPathSegment)
                 var localFile = File.createTempFile("tempImg", "jpg")
-                var file: Uri = pathDownloads.toUri()
-                val stream = ByteArrayOutputStream()
 
                 pathReference.getFile(localFile).addOnSuccessListener {
-                    val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
+                    var bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
                     ivImage.setImageBitmap(bitmap)
+                    bitmap = BitmapFactory.decodeFile("")
                 }
                 .addOnFailureListener{
                     Log.e("ERROR ", it.toString())
                 }
-
                 ivImage.visibility = ImageView.VISIBLE
-                tvMensaje.text = "Se envió una imagen:"
-                ivImage.setImageURI(mensaje.contenido.toUri())
+                tvMensaje.text = ""
+            }else{
+                tvMensaje.text = mensaje.contenido
+                ivImage.visibility = ImageView.GONE
             }
         }
     }
