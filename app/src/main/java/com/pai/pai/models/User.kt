@@ -1,5 +1,9 @@
 package com.pai.pai.models
 
+import android.net.Uri
+import androidx.core.net.toUri
+import com.google.firebase.database.Exclude
+
 class User (
     var id: String = "",
     var username: String = "",
@@ -10,4 +14,8 @@ class User (
     var m_last_name: String = "",
     var carrera: String = ""
         ){
+    @Exclude
+    var tareas : Boolean = java.lang.Boolean.FALSE
+    var chatIndividual : Boolean = java.lang.Boolean.FALSE
+    private var image: Uri = "".toUri()
 }

@@ -79,7 +79,10 @@ class RegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         }else{
             if(checkPwd(pwd, confPwd)){
                 auth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener { respueta ->
-                    crearUsuarioBD(User("", username, pwd, email, name, lName, mLName, categoria), respueta)
+                    var userToCreate = User("", username, pwd, email, name, lName, mLName, categoria)
+                    userToCreate.tareas = false
+                    userToCreate.chatIndividual = false
+                    crearUsuarioBD(userToCreate, respueta)
                     evaluarRegistro(username, respueta)
                 }
             }
