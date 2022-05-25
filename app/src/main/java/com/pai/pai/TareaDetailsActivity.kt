@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.fcfm.poi.encriptacin.CifradoTools
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.FirebaseDatabase
 import com.pai.pai.adapters.AdaptadorSubgrupos
@@ -20,8 +21,8 @@ import com.pai.pai.models.UserObject
 class TareaDetailsActivity: AppCompatActivity() {
 
     private val database = FirebaseDatabase.getInstance()
-    private var rama = "groups/id"+ GroupObject.getId().toString()+"/Subgrupos"
-    private val subRef = database.getReference(rama)
+    private var rama = "tareas/"+ TareaObject.getId()+"/Usuarios/"
+    private val tareaRef = database.getReference(rama)
 
 
 
@@ -37,7 +38,7 @@ class TareaDetailsActivity: AppCompatActivity() {
         txtDesc.text = TareaObject.getDescription()
 
 
-        val toolbar = findViewById<Toolbar>(R.id.tb_groupdetails)
+        val toolbar = findViewById<Toolbar>(R.id.tb_tareadetails)
         setSupportActionBar(toolbar)
 
 
@@ -49,7 +50,12 @@ class TareaDetailsActivity: AppCompatActivity() {
 
 
         btnEntregar.setOnClickListener {
+            val firebaseMsg = tareaRef.push()
 
+            val entregado = listOf(UserObject.getId(), true)
+
+            firebaseMsg.setValue(entregado)
+            finish()
         }
     }
 }

@@ -7,7 +7,7 @@
     android:background="@color/black">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tb_groupdetails"
+        android:id="@+id/tb_tareadetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/dark_gray"
@@ -28,7 +28,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tb_groupdetails" />
+        app:layout_constraintTop_toBottomOf="@+id/tb_tareadetails" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -59,7 +59,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="60dp"
             android:layout_marginBottom="8dp"
-            android:inputType="textImeMultiLine"
+            android:inputType="textMultiLine"
             android:maxHeight="200dp"
             android:minHeight="100dp"
             android:textColor="@color/black"

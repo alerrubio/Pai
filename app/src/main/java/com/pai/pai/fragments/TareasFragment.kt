@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -40,6 +41,7 @@ class TareasFragment: Fragment() {
     private val userRef = database.getReference(rama)
     private val tareas = mutableListOf<Tarea>()
     private var tareasAdaptador: AdaptadorTareas? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +87,7 @@ class TareasFragment: Fragment() {
                     val tarea: Tarea = snap.getValue(Tarea::class.java) as Tarea
 
                     if(tarea.carrera == UserObject.getCarrera()){
+
                         tareas.add(tarea)
                     }
                 }

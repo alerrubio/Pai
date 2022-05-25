@@ -7,13 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.pai.pai.GroupActivity
 import com.pai.pai.R
 import com.pai.pai.TareaDetailsActivity
-import com.pai.pai.models.GroupObject
-import com.pai.pai.models.Grupos
-import com.pai.pai.models.Tarea
-import com.pai.pai.models.TareaObject
+import com.pai.pai.models.*
 
 class AdaptadorTareas (private val listaTarea: MutableList<Tarea>, val context: Context):
     RecyclerView.Adapter<AdaptadorTareas.GroupViewHolder>() {
@@ -23,6 +24,10 @@ class AdaptadorTareas (private val listaTarea: MutableList<Tarea>, val context: 
     private lateinit var tvHwDescription: TextView
     private lateinit var checkBox: CheckBox
     private var checked = false
+    private var rama = ""
+
+    private val database = FirebaseDatabase.getInstance()
+
 
 
     inner class GroupViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
@@ -38,9 +43,14 @@ class AdaptadorTareas (private val listaTarea: MutableList<Tarea>, val context: 
 
             val contenedorTarea = itemView.findViewById<LinearLayout>(R.id.contenedor_tareas)
 
-            if(checkBox.isChecked){
-                checked = true
+
+           validarEntrega(tarea)
+
+            if(TareaObject.getChecked()){
+                checkBox.isChecked=true
+                TareaObject.setChecked(false)
             }
+
 
             tvHwName.text = tarea.name
             tvHwDescription.text = tarea.descripcion
@@ -68,13 +78,43 @@ class AdaptadorTareas (private val listaTarea: MutableList<Tarea>, val context: 
             when (v!!.id) {
                 R.id.frametareas -> {
 
-                    TareaObject.setTarea(tvHwName.text.toString(), tvHwDescription.text.toString(), checked)
+                    TareaObject.setTarea(listaTarea[pos].id, tvHwName.text.toString(), tvHwDescription.text.toString(), checked)
                     val intent = Intent(context, TareaDetailsActivity::class.java)
                     context.startActivity(intent)
 
                 }
             }
         }
+    }
+
+    private fun validarEntrega(tarea: Tarea){
+        rama = ""
+        rama = "tareas/"+tarea.id+"/Usuarios"
+        val userRef = database.getReference(rama)
+
+        userRef.addValueEventListener(object: ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                for (snap in snapshot.children) {
+
+                    val validar: ArrayList<Any> = snap.getValue() as ArrayList<Any>
+
+                    if(validar[0] == UserObject.getId() && validar[1] == true){
+
+                        TareaObject.setChecked(true)
+                        //checkBox.isChecked = true
+                        break
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+                Toast.makeText(context, "Error al leer los usuarios cumplidos", Toast.LENGTH_SHORT).show()
+            }
+        })
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
