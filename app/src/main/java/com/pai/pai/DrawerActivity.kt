@@ -4,6 +4,7 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -15,23 +16,26 @@ import com.fcfm.poi.encriptacin.CifradoTools
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.pai.pai.adapters.ViewPagerAdapater
 import com.pai.pai.fragments.ChatFragment
-import com.pai.pai.models.GroupObject
-import com.pai.pai.models.Miembros
-import com.pai.pai.models.SubgrupoObject
-import com.pai.pai.models.UserObject
+import com.pai.pai.models.*
 
 class DrawerActivity : AppCompatActivity() {
 
     private lateinit var nombreUsuario: String
     private val adapter by lazy{ ViewPagerAdapater(this) }
     val presenceRef = Firebase.database.getReference("onlineusers/")
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val user = auth.currentUser
+    private val database = FirebaseDatabase.getInstance()
 
     fun cambiarFragmento(fragmentoNuevo: Fragment, tag: String){
 
@@ -47,8 +51,9 @@ class DrawerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.drawer_layout)
+        presenceRef.onDisconnect().setValue(user!!.uid)
 
-        presenceRef.onDisconnect().setValue(UserObject)
+        userConnection()
 
         val miNav = findViewById<NavigationView>(R.id.nav)
         val miDrawer = findViewById<DrawerLayout>(R.id.drawer)
@@ -64,19 +69,19 @@ class DrawerActivity : AppCompatActivity() {
         miNav.setNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.opc_perfil -> {
-                    cambiarFragmento(ProfileFragment(), "ProfileFragment")
+                    val intent = Intent(this@DrawerActivity, ProfileActivity::class.java)
+                    startActivity(intent)
                 }
                 R.id.opc_logros -> {
                     val intent = Intent(this@DrawerActivity, GamificationActivity::class.java)
                     startActivity(intent)
                 }
                 R.id.opc_logout -> {
-
                     UserObject.logOut()
                     GroupObject.logOut()
                     SubgrupoObject.logOut()
                     Miembros.logOut()
-                    disconnectUser()
+                    //disconnectUser()
                     val intent = Intent(this@DrawerActivity, LoginActivity::class.java)
                     startActivity(intent)
                     finish()
@@ -117,29 +122,57 @@ class DrawerActivity : AppCompatActivity() {
 
     }
 
-    fun connectUser(){
-        val connectedRef = Firebase.database.getReference(".info/connected")
+    fun userConnection(){
+        val connectedRef = database.getReference(".info/connected")
         connectedRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val connected = snapshot.getValue(Boolean::class.java) ?: false
+                ConnectedUsers.deleteMembers()
+                val connected = snapshot.getValue<Boolean>() ?: false
                 if (connected) {
-                    Log.d(TAG, "connected")
-                } else {
-                    Log.d(TAG, "not connected")
+                    val con = presenceRef.push()
+
+                    // When this device disconnects, remove it
+                    con.onDisconnect().removeValue()
+
+                    // Add this device to my connections list
+                    con.child("uid").setValue(user!!.uid)
+                }
+
+                for (snap in snapshot.children) {
+
+                    val uid: String = snap.child("uid").getValue(String::class.java) as String
+
+                    ConnectedUsers.setconnectedUsers(uid)
+
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.w(TAG, "Listener was cancelled")
+                Log.w(TAG, "Listener was cancelled at .info/connected")
             }
         })
     }
 
-    fun disconnectUser(){
-        val firebaseMsg = presenceRef.push()
+    fun disconnect(){
 
-        presenceRef.onDisconnect().setValue(UserObject)
+        presenceRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                ConnectedUsers.deleteMembers()
 
-        firebaseMsg.setValue(UserObject)
+                for (snap in snapshot.children) {
+                    val uid: String = snap.child("uid").getValue(String::class.java) as String
+
+                    if (uid == user!!.uid){
+                        snap.ref.removeValue()
+                    }
+                    
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.w(TAG, "Listener was cancelled at .info/connected")
+            }
+        })
     }
+
 }

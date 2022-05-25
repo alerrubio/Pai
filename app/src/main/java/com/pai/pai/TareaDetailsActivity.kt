@@ -1,27 +1,31 @@
 package com.pai.pai
 
-import android.content.Intent
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.fcfm.poi.encriptacin.CifradoTools
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.database.FirebaseDatabase
-import com.pai.pai.adapters.AdaptadorSubgrupos
-import com.pai.pai.models.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
+import com.pai.pai.models.TareaObject
+import com.pai.pai.models.User
+import com.pai.pai.models.UserObject
+
 
 class TareaDetailsActivity: AppCompatActivity() {
 
     private val database = FirebaseDatabase.getInstance()
     private var rama = "tareas/"+ TareaObject.getId()+"/usuarios"
     private val tareaRef = database.getReference(rama)
-
-
+    private lateinit var gamRef: DatabaseReference
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val user = auth.currentUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +60,60 @@ class TareaDetailsActivity: AppCompatActivity() {
             tareaRef.ref.setValue(usuarios)
 
             //firebaseMsg.setValue(usuarios)
-            finish()
+            val dialogClick = { dialog: DialogInterface, which: Int ->
+
+            }
+            if (!UserObject.getTareas()){
+                updateGamifications("tareas")
+                UserObject.setTareas(true)
+                val builder = AlertDialog.Builder(this)
+                builder.setNeutralButton("Ok",dialogClick)
+                builder.setTitle("Logro de primer tarea entregada desbloqueado!")
+                builder.show()
+            }
+            Handler(Looper.getMainLooper()).postDelayed(
+                { finish() },
+                2000
+            )
+
+
         }
+    }
+
+    fun updateGamifications(gamToUpdate: String){
+        gamRef = database.getReference("users/")
+
+        gamRef.addValueEventListener(object: ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                for (snap in snapshot.children) {
+
+                    val dbuser: User = snap.getValue(User::class.java) as User
+
+                    if (dbuser.id == user!!.uid){
+                        when(gamToUpdate){
+                            "chat" -> {
+                                var auxId  = snap.key
+                                var db = database.getReference("users/"+auxId+"/chat");
+                                db.ref.setValue(true)
+                            }
+                            "tareas" -> {
+                                var auxId  = snap.key
+                                var db = database.getReference("users/"+auxId+"/tareas");
+                                db.ref.setValue(true)
+
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+                Toast.makeText(this@TareaDetailsActivity, "Error al actualizar los logros", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

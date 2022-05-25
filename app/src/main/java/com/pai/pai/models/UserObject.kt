@@ -1,6 +1,8 @@
 package com.pai.pai.models
 
+import android.net.Uri
 import android.text.BoringLayout
+import androidx.core.net.toUri
 
 object UserObject {
 
@@ -12,7 +14,7 @@ object UserObject {
     private var carrera : String = ""
     private var tareas : Boolean = java.lang.Boolean.FALSE
     private var chatIndividual : Boolean = java.lang.Boolean.FALSE
-
+    private var image: Uri = "".toUri()
     fun setUser(id: String, name: String?, email: String, pass: String,  carrera: String){
         this.userId = id
         this.username = name
@@ -72,5 +74,10 @@ object UserObject {
     fun getChat(): Boolean{
         return this.chatIndividual
     }
+
+    fun getUsername(): String{
+        return this.username!!
+    }
+
 
 }

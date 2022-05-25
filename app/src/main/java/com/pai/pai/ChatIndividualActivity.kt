@@ -37,8 +37,6 @@ class ChatIndividualActivity : AppCompatActivity() {
 
     private var textRef = ""
 
-
-
     private var StorageRef = FirebaseStorage.getInstance().reference
     private val database = FirebaseDatabase.getInstance()
     private lateinit var chatRef: DatabaseReference
@@ -431,7 +429,7 @@ class ChatIndividualActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {
 
-                Toast.makeText(this@ChatIndividualActivity, "Error al leer mensajes", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ChatIndividualActivity, "Error al actualizar los logros", Toast.LENGTH_SHORT).show()
             }
         })
     }

@@ -18,6 +18,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.pai.pai.models.GroupObject
 import com.pai.pai.models.Subgrupo
@@ -31,7 +32,7 @@ class LoginActivity : AppCompatActivity() {
     private val database = FirebaseDatabase.getInstance()
     private var rama = "users"
     private val subRef = database.getReference(rama)
-
+    private val presenceRef = Firebase.database.getReference("onlineusers/")
     //TODO: Checar qué rollo con el FireBaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -98,6 +99,7 @@ class LoginActivity : AppCompatActivity() {
                                 UserObject.setUser(auth.currentUser!!.uid, auth.currentUser?.displayName, usuariologged.email, usuariologged.password, usuariologged.carrera)
                                 UserObject.setChat(usuariologged.chatIndividual)
                                 UserObject.setTareas(usuariologged.tareas)
+                                presenceRef.child("")
                                 startActivity(intentChat)
                             }
                         }

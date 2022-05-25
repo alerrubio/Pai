@@ -1,21 +1,28 @@
 package com.pai.pai.fragments
 
+import android.content.ContentValues
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.fcfm.poi.encriptacin.CifradoTools
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
+import com.google.firebase.ktx.Firebase
 import com.pai.pai.R
 import com.pai.pai.adapters.AdaptadorChat
 import com.pai.pai.adapters.AdaptadorContactos
+import com.pai.pai.models.ConnectedUsers
 import com.pai.pai.models.Message
 import com.pai.pai.models.User
 
@@ -23,7 +30,7 @@ class ContactosFragment : Fragment() {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val user = auth.currentUser
-
+    val presenceRef = Firebase.database.getReference("onlineusers/")
     private var context2: Context? = null
 
     override fun onAttach(context: Context) {
@@ -39,7 +46,7 @@ class ContactosFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        userConnection()
     }
 
     override fun onCreateView(
@@ -88,4 +95,35 @@ class ContactosFragment : Fragment() {
         })
     }
 
+    fun userConnection(){
+        val connectedRef = database.getReference(".info/connected")
+        connectedRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                ConnectedUsers.deleteMembers()
+                val connected = snapshot.getValue<Boolean>() ?: false
+                if (connected) {
+                    val con = presenceRef.push()
+
+                    // When this device disconnects, remove it
+                    con.onDisconnect().removeValue()
+
+                    // Add this device to my connections list
+                    con.child("uid").setValue(user!!.uid)
+                }
+
+                for (snap in snapshot.children) {
+
+                    val uid: String = snap.child("uid").getValue(String::class.java) as String
+
+                    ConnectedUsers.setconnectedUsers(uid)
+
+
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.w(ContentValues.TAG, "Listener was cancelled at .info/connected")
+            }
+        })
+    }
 }
