@@ -1,6 +1,8 @@
 package com.pai.pai
 
 import android.Manifest
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
@@ -16,10 +18,13 @@ import com.github.drjacky.imagepicker.ImagePicker
 import com.github.drjacky.imagepicker.constant.ImageProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.pai.pai.adapters.AdaptadorChat
 import com.pai.pai.models.Chat
 import com.pai.pai.models.Message
+import com.pai.pai.models.User
 import com.pai.pai.models.UserObject
 import java.io.File
 import javax.security.auth.callback.Callback
@@ -32,10 +37,13 @@ class ChatIndividualActivity : AppCompatActivity() {
 
     private var textRef = ""
 
+
+
     private var StorageRef = FirebaseStorage.getInstance().reference
     private val database = FirebaseDatabase.getInstance()
     private lateinit var chatRef: DatabaseReference
     private lateinit var msgRef: DatabaseReference
+    private lateinit var gamRef: DatabaseReference
     private lateinit var nombreUsuario: String
     private lateinit var idUsuarioDestino: String
 
@@ -55,6 +63,20 @@ class ChatIndividualActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_individual)
+
+        val dialogClick = { dialog: DialogInterface, which: Int ->
+            //Toast.makeText(context, "Acción cancelada", Toast.LENGTH_SHORT).show()
+        }
+
+        if (!UserObject.getChat()){
+            updateGamifications("chat")
+            UserObject.setChat(true)
+            val builder = AlertDialog.Builder(this)
+            builder.setNeutralButton("Ok",dialogClick)
+            builder.setTitle("Logro de primer chat individual desbloqueado!")
+            builder.show()
+        }
+
 
         idUsuarioDestino = intent.getStringExtra("idUsuario") ?: "sin id"
 
@@ -376,5 +398,41 @@ class ChatIndividualActivity : AppCompatActivity() {
 
                 Toast.makeText(this, "No se pudo subir tu imagen", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    fun updateGamifications(gamToUpdate: String){
+        gamRef = database.getReference("users/")
+
+        gamRef.addValueEventListener(object: ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                for (snap in snapshot.children) {
+
+                    val dbuser: User = snap.getValue(User::class.java) as User
+
+                    if (dbuser.id == user!!.uid){
+                        when(gamToUpdate){
+                            "chat" -> {
+                                var auxId  = snap.key
+                                var db = database.getReference("users/"+auxId+"/tareas");
+                                db.ref.setValue(true)
+                            }
+                            "tareas" -> {
+                                var auxId  = snap.key
+                                var db = database.getReference("users/"+auxId+"/tareas");
+                                db.ref.setValue(true)
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+                Toast.makeText(this@ChatIndividualActivity, "Error al leer mensajes", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

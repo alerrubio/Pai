@@ -7,9 +7,9 @@
         android:icon="@drawable/ic_person_24"
         android:title="Perfil" />
     <item
-        android:id="@+id/opc_chats"
-        android:icon="@drawable/ic_chat_bubble_24"
-        android:title="Grupos" />
+        android:id="@+id/opc_logros"
+        android:icon="@drawable/ic_baseline_wine_bar_24"
+        android:title="Logros" />
     <item
         android:id="@+id/opc_logout"
         android:icon="@drawable/ic_baseline_power_settings_new_24"

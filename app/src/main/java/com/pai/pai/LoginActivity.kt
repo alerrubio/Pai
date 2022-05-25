@@ -96,6 +96,8 @@ class LoginActivity : AppCompatActivity() {
 
                             if(usuariologged.id == auth.currentUser!!.uid){
                                 UserObject.setUser(auth.currentUser!!.uid, auth.currentUser?.displayName, usuariologged.email, usuariologged.password, usuariologged.carrera)
+                                UserObject.setChat(usuariologged.chatIndividual)
+                                UserObject.setTareas(usuariologged.tareas)
                                 startActivity(intentChat)
                             }
                         }

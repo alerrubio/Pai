@@ -10,6 +10,8 @@ object UserObject {
     private var pass : String = ""
     private var encript : Boolean = true
     private var carrera : String = ""
+    private var tareas : Boolean = java.lang.Boolean.FALSE
+    private var chatIndividual : Boolean = java.lang.Boolean.FALSE
 
     fun setUser(id: String, name: String?, email: String, pass: String,  carrera: String){
         this.userId = id
@@ -53,6 +55,22 @@ object UserObject {
 
     fun getCarrera(): String{
         return this.carrera
+    }
+
+    fun setTareas(tareas: Boolean){
+        this.tareas = tareas
+    }
+
+    fun getTareas(): Boolean{
+        return this.tareas
+    }
+
+    fun setChat(chat: Boolean){
+        this.chatIndividual = chat
+    }
+
+    fun getChat(): Boolean{
+        return this.chatIndividual
     }
 
 }
