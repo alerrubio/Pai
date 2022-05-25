@@ -9,6 +9,7 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.pai.pai.GroupActivity
 import com.pai.pai.R
+import com.pai.pai.TareaDetailsActivity
 import com.pai.pai.models.GroupObject
 import com.pai.pai.models.Grupos
 import com.pai.pai.models.Tarea
@@ -68,7 +69,8 @@ class AdaptadorTareas (private val listaTarea: MutableList<Tarea>, val context: 
                 R.id.frametareas -> {
 
                     TareaObject.setTarea(tvHwName.text.toString(), tvHwDescription.text.toString(), checked)
-                    //TODO mandar al activity de detalles de la tarea
+                    val intent = Intent(context, TareaDetailsActivity::class.java)
+                    context.startActivity(intent)
 
                 }
             }
