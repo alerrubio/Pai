@@ -73,6 +73,9 @@
         <activity
             android:name=".CreateSubgroupActivity"
             android:exported="true" />
+        <activity
+            android:name=".CreateTareasActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

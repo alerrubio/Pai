@@ -8,11 +8,8 @@ import android.widget.*
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ServerValue
-import com.pai.pai.models.Message
 import com.pai.pai.models.User
 
 class RegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
