@@ -15,6 +15,7 @@ object UserObject {
     private var tareas : Boolean = java.lang.Boolean.FALSE
     private var chatIndividual : Boolean = java.lang.Boolean.FALSE
     private var image: Uri = "".toUri()
+
     fun setUser(id: String, name: String?, email: String, pass: String,  carrera: String){
         this.userId = id
         this.username = name

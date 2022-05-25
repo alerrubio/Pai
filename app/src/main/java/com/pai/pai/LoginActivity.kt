@@ -1,6 +1,7 @@
 package com.pai.pai
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -46,7 +47,6 @@ class LoginActivity : AppCompatActivity() {
         btnLogIn.setOnClickListener{
             login()
         }
-
 
 
         btnRegister.setOnClickListener{
@@ -110,7 +110,6 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this@LoginActivity, "Error al leer los contactos", Toast.LENGTH_SHORT).show()
                     }
                 })
-
 
 
 
